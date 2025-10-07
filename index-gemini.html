@@ -7,8 +7,10 @@
   <style>
     :root {
       --bg1:#0b1d3a; --bg2:#09132a; --bg3:#050915;
-      --glass: rgba(255,255,255,.08);
-      --border: rgba(255,255,255,.15);
+      --glass: rgba(255, 255, 255, .06);
+      --border: rgba(255, 255, 255, .1);
+      --shadow-sm: 0 4px 12px rgba(0,0,0,.25);
+      --shadow-md: 0 8px 32px rgba(0,0,0,.3);
       --text: #e6eefc;
       --muted: rgba(230,238,252,.75);
       --gradA: rgba(99,102,241,.25);
@@ -20,37 +22,41 @@
     body{margin:0;font-family:Inter,system-ui,Arial,Helvetica,sans-serif;color:var(--text);background:#000;overflow-x:hidden}
     a{color:inherit;text-decoration:none}
     .wrap{max-width:1200px;margin:0 auto;padding:0 20px}
-    header.nav{position:sticky;top:0;z-index:40;backdrop-filter:blur(12px);background:rgba(255,255,255,.05);border-bottom:1px solid var(--border)}
+    header.nav{position:sticky;top:0;z-index:40;backdrop-filter:blur(12px);background:rgba(11, 29, 58, 0.7);border-bottom:1px solid var(--border); box-shadow: var(--shadow-md);}
     header .bar{height:64px;display:flex;align-items:center;justify-content:space-between}
     .brand{display:flex;align-items:center;gap:8px;font-weight:600}
     .badge{margin-left:8px;padding:2px 8px;border-radius:12px;background:var(--glass);border:1px solid var(--border);font-size:12px}
     nav.links{display:flex;gap:24px;font-size:14px;color:var(--muted)}
+    nav.links a{transition: color 0.3s ease;}
     nav.links a:hover{color:#fff}
     .grid{display:grid;gap:24px}
     .grid-2{grid-template-columns:280px 1fr}
-    .sidebar{position:sticky;top:80px;height:calc(100vh - 100px);padding:24px 12px;border-right:1px solid var(--border);background:rgba(255,255,255,.05);backdrop-filter:blur(12px);overflow:auto}
+    .sidebar{position:sticky;top:80px;padding:24px 12px;border-right:1px solid var(--border);background:var(--glass);backdrop-filter:blur(12px);overflow:auto; border-radius: 0 16px 16px 0;}
     .side-title{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(230,238,252,.6);margin:0 0 8px;display:flex;align-items:center;gap:6px}
     .side-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
-    .side-item a{display:flex;align-items:center;gap:8px;color:var(--muted);transition:transform .18s ease, color .18s ease}
+    .side-item a{display:flex;align-items:center;gap:8px;color:var(--muted);transition:transform 0.3s ease, color 0.3s ease; cursor: pointer;}
     .side-item a:hover{color:#fff;transform:translateX(4px)}
     .hero{padding:96px 0}
     .title{font-weight:700;font-size:48px;line-height:1.1}
     .title .grad{background:linear-gradient(90deg,#7cc7ff,#d6dbff,#f8a8e8);-webkit-background-clip:text;background-clip:text;color:transparent}
     .lead{margin-top:16px;max-width:720px;color:var(--muted);font-size:18px}
     .btns{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
-    .btn{padding:12px 16px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.08);color:#e8eeff;cursor:pointer}
+    .btn{padding:12px 16px;border-radius:14px;border:1px solid var(--border);background:var(--glass);color:#e8eeff;cursor:pointer; transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;}
+    .btn:hover{transform: scale(1.05);}
     .btn.primary{background:rgba(99,102,241,.6);border-color:rgba(255,255,255,.3)}
+    .btn.primary:hover{background:rgba(99,102,241,.8);}
     .pills{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
-    .pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--border);font-size:12px}
+    .pill{padding:6px 10px;border-radius:999px;background:var(--glass);border:1px solid var(--border);font-size:12px}
     section.block{padding:64px 0;opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
     section.block.reveal{opacity:1;transform:translateY(0)}
     .cards{display:grid;gap:24px;grid-template-columns:repeat(3,minmax(0,1fr))}
-    .card{position:relative;border-radius:16px;overflow:hidden;background:var(--glass);border:1px solid var(--border);padding:18px;backdrop-filter:blur(10px)}
+    .card{position:relative;border-radius:16px;overflow:hidden;background:var(--glass);border:1px solid var(--border);padding:24px;backdrop-filter:blur(10px); box-shadow: var(--shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease;}
+    .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-md);}
     .shimmer::before{content:"";pointer-events:none;position:absolute;inset:-2px;opacity:0;transition:opacity .25s ease;background:linear-gradient(110deg,transparent,rgba(255,255,255,.20),transparent);transform:translateX(-60%);animation:shimmer 2.2s linear infinite}
     .card:hover.shimmer::before{opacity:1}
     @keyframes shimmer{0%{transform:translateX(-60%)}100%{transform:translateX(60%)}}
-    .badge2{display:inline-block;padding:2px 8px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid var(--border);font-size:12px;color:var(--muted)}
-    footer{border-top:1px solid var(--border);background:rgba(255,255,255,.05);backdrop-filter:blur(12px);padding:32px 0;color:var(--muted)}
+    .badge2{display:inline-block;padding:2px 8px;border-radius:10px;background:var(--glass);border:1px solid var(--border);font-size:12px;color:var(--muted)}
+    footer{border-top:1px solid var(--border);background:rgba(11, 29, 58, 0.7);backdrop-filter:blur(12px);padding:32px 0;color:var(--muted)}
     /* FX layers */
     canvas#starfield{position:fixed;inset:0;z-index:-10;width:100vw;height:100vh}
     .overlayA,.overlayB,.overlayC,.noise{position:fixed;inset:0;pointer-events:none;z-index:-10}
@@ -67,8 +73,14 @@
     .modal-wrap{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:60}
     .modal-wrap.open{display:flex}
     .modal-bg{position:absolute;inset:0;background:rgba(0,0,0,.6)}
-    .modal{position:relative;z-index:1;width:min(800px,92vw);border-radius:16px;border:1px solid var(--border);background:rgba(255,255,255,.1);backdrop-filter:blur(20px);padding:20px}
-    .modal h3{margin:0 0 8px}
+    .modal{position:relative;z-index:1;width:min(800px,92vw);max-height: 80vh; overflow-y: auto; border-radius:16px;border:1px solid var(--border);background:var(--glass);backdrop-filter:blur(20px);padding:20px; box-shadow: var(--shadow-md);}
+    .modal h3{margin:0 0 16px; font-size: 24px;}
+    .modal h4{margin: 24px 0 8px; font-size: 18px; color: var(--text);}
+    .modal p { line-height: 1.6; color: var(--muted); margin: 0 0 1em; }
+    .modal p:last-child { margin-bottom: 0; }
+    .modal ul { list-style-position: inside; padding-left: 0; margin: 0; color: var(--muted); }
+    .modal ol { list-style-position: inside; padding-left: 0; margin: 0; color: var(--muted); }
+    .modal li { margin-bottom: 8px; line-height: 1.6; }
     .close-btn{position:absolute;right:14px;top:14px;background:rgba(255,255,255,.1);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:6px 8px;cursor:pointer}
     .scrollbar::-webkit-scrollbar{height:8px}
     .scrollbar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:8px}
@@ -84,8 +96,10 @@
     .mb-10{margin-bottom:40px}
     .flex{display:flex} .gap-8{gap:32px} .gap-4{gap:16px} .gap-2{gap:8px}
     .items-center{align-items:center} .justify-between{justify-content:space-between}
-    .btn-link{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid var(--border)}
-    .input{border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.08);color:var(--text);padding:10px 12px;outline:none}
+    .btn-link{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;background:var(--glass);border:1px solid var(--border); transition: transform 0.3s ease;}
+    .btn-link:hover {transform: scale(1.05);}
+    .input{border-radius:12px;border:1px solid var(--border);background:var(--glass);color:var(--text);padding:10px 12px;outline:none; transition: box-shadow 0.3s ease;}
+    .input:focus {box-shadow: 0 0 0 2px var(--accent);}
   </style>
 </head>
 <body>
@@ -105,8 +119,6 @@
         <a href="#features">Features</a>
         <a href="#projects">Projects</a>
         <a href="#capabilities">Capabilities</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
       </nav>
       <div class="flex gap-2">
         <a class="btn-link" href="https://lico.gitbook.io/lico.-docs/" target="_blank">📘 GitBook</a>
@@ -119,158 +131,82 @@
     <aside class="sidebar">
       <p class="side-title">Work Project</p>
       <ul class="side-list">
-        <li class="side-item"><a id="mechanicalLink" href="#">🔧 Mechanical Machine</a></li>
+        <li class="side-item"><a id="mechanicalLink">🔧 Mechanical Machine</a></li>
         <li class="side-item"><a href="#software">💻 Software Project</a></li>
         <li class="side-item"><a href="#design">🖥️ Design Project</a></li>
         <li class="side-item"><a href="#computer">🧠 Computer Engineering</a></li>
       </ul>
       <p class="side-title" style="margin-top:18px">Getting Started</p>
       <ul class="side-list">
-        <li class="side-item"><a href="#about">About Me</a></li>
-        <li class="side-item"><a href="#experience">Work Experience</a></li>
-        <li class="side-item"><a href="#skills">Skills & Expertise</a></li>
-        <li class="side-item"><a href="#languages">Languages</a></li>
-        <li class="side-item"><a href="#vision">Vision & Mission</a></li>
-        <li class="side-item"><a href="#contact">Contact</a></li>
+        <li class="side-item"><a id="aboutLink">About Me</a></li>
+        <li class="side-item"><a id="experienceLink">Work Experience</a></li>
+        <li class="side-item"><a id="skillsLink">Skills & Expertise</a></li>
+        <li class="side-item"><a id="languagesLink">Languages</a></li>
+        <li class="side-item"><a id="visionLink">Vision & Mission</a></li>
+        <li class="side-item"><a id="contactLink">Contact</a></li>
       </ul>
-
-      <div style="margin-top:18px" class="flex gap-2">
-        <a class="btn-link" href="https://lico.gitbook.io/lico.-docs/" target="_blank">📘 GitBook</a>
-        <a class="btn-link" href="https://github.com/xdadeveloper707/FIlo.io" target="_blank">🐙 GitHub</a>
-      </div>
     </aside>
 
-    <section class="hero">
-      <h1 class="title">Industrial <span class="grad">Automation</span>, Galaxy‑Grade Design.</h1>
-      <p class="lead">Showcase your SMT, AOI, SPI, and inline X‑ray projects in a glassy, dark‑blue universe. Built for speed, precision, and wow‑factor.</p>
-      <div class="btns">
-        <button class="btn primary">Launch Demo</button>
-        <button class="btn">Explore Projects</button>
-      </div>
-      <div class="pills">
-        <span class="pill">3D AOI • VT‑S1080V2</span>
-        <span class="pill">TRI 2D AOI • 3D SPI</span>
-        <span class="pill">Inline X‑ray • Seamark</span>
-        <span class="pill">Barcode Integrations</span>
-      </div>
-    </section>
+    <main>
+      <section class="hero">
+        <h1 class="title">Industrial <span class="grad">Automation</span>, Galaxy‑Grade Design.</h1>
+        <p class="lead">Showcase your SMT, AOI, SPI, and inline X‑ray projects in a glassy, dark‑blue universe. Built for speed, precision, and wow‑factor.</p>
+        <div class="btns">
+          <button class="btn primary">Launch Demo</button>
+          <button class="btn">Explore Projects</button>
+        </div>
+        <div class="pills">
+          <span class="pill">3D AOI • VT‑S1080V2</span>
+          <span class="pill">TRI 2D AOI • 3D SPI</span>
+          <span class="pill">Inline X‑ray • Seamark</span>
+          <span class="pill">Barcode Integrations</span>
+        </div>
+      </section>
+
+      <section id="features" class="block wrap">
+        <div class="mb-10"><h2>Core Features</h2><p class="lead">Designed to present complex manufacturing data with clarity and style.</p></div>
+        <div class="cards">
+          <article class="card shimmer">
+            <h3>⚡ Real‑time Dashboards</h3>
+            <p>Live KPIs, pass‑rate, void‑rate trends with smooth graphs and exports.</p>
+          </article>
+          <article class="card shimmer">
+            <h3>🛡️ Traceability</h3>
+            <p>WO, lot, PCB, and LED index linked to images, AOI results, and X‑ray.</p>
+          </article>
+          <article class="card shimmer">
+            <h3>🚀 Fast & Responsive</h3>
+            <p>Optimized frontend + API for snappy navigation even on the shop floor.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="projects" class="block wrap">
+        <div class="mb-10"><h2>Showcase Projects</h2><p class="lead">Hand‑picked case studies from your production line.</p></div>
+        <div class="cards">
+          <article class="card shimmer">
+            <h3>🧠 T1UL Lower • 160 LED / PCB</h3>
+            <p>3D AOI program & inline X‑ray correlation on flexible PCB.</p>
+            <div class="flex gap-2"><span class="badge2">AOI 3D</span><span class="badge2">Void Analysis</span></div>
+            <p style="margin-top:8px;font-size:14px;color:var(--muted)">Pass 98.4%</p>
+          </article>
+          <article class="card shimmer">
+            <h3>🔍 T1UL Upper • 9 LED / PCB</h3>
+            <p>Inline X‑ray (Seamark) with SPI pre-check; LED index mapping.</p>
+            <div class="flex gap-2"><span class="badge2">Inline X‑ray</span><span class="badge2">SPI</span></div>
+            <p style="margin-top:8px;font-size:14px;color:var(--muted)">Void ≤ 8%</p>
+          </article>
+          <article class="card shimmer">
+            <h3>📦 Barcode Flow • Datalogic</h3>
+            <p>Matrix 210 integration, controlled trigger, UTF‑8 clean parsing.</p>
+            <div class="flex gap-2"><span class="badge2">RS‑232</span><span class="badge2">UTF‑8</span></div>
+            <p style="margin-top:8px;font-size:14px;color:var(--muted)">Latency &lt; 120ms</p>
+          </article>
+        </div>
+      </section>
+    </main>
   </div>
 
-  <section id="features" class="block wrap">
-    <div class="mb-10"><h2>Core Features</h2><p class="lead">Designed to present complex manufacturing data with clarity and style.</p></div>
-    <div class="cards">
-      <article class="card shimmer">
-        <h3>⚡ Real‑time Dashboards</h3>
-        <p>Live KPIs, pass‑rate, void‑rate trends with smooth graphs and exports.</p>
-      </article>
-      <article class="card shimmer">
-        <h3>🛡️ Traceability</h3>
-        <p>WO, lot, PCB, and LED index linked to images, AOI results, and X‑ray.</p>
-      </article>
-      <article class="card shimmer">
-        <h3>🚀 Fast & Responsive</h3>
-        <p>Optimized frontend + API for snappy navigation even on the shop floor.</p>
-      </article>
-    </div>
-  </section>
-
-  <section id="projects" class="block wrap">
-    <div class="mb-10"><h2>Showcase Projects</h2><p class="lead">Hand‑picked case studies from your production line.</p></div>
-    <div class="cards">
-      <article class="card shimmer">
-        <h3>🧠 T1UL Lower • 160 LED / PCB</h3>
-        <p>3D AOI program & inline X‑ray correlation on flexible PCB.</p>
-        <div class="flex gap-2"><span class="badge2">AOI 3D</span><span class="badge2">Void Analysis</span></div>
-        <p style="margin-top:8px;font-size:14px;color:var(--muted)">Pass 98.4%</p>
-      </article>
-      <article class="card shimmer">
-        <h3>🔍 T1UL Upper • 9 LED / PCB</h3>
-        <p>Inline X‑ray (Seamark) with SPI pre-check; LED index mapping.</p>
-        <div class="flex gap-2"><span class="badge2">Inline X‑ray</span><span class="badge2">SPI</span></div>
-        <p style="margin-top:8px;font-size:14px;color:var(--muted)">Void ≤ 8%</p>
-      </article>
-      <article class="card shimmer">
-        <h3>📦 Barcode Flow • Datalogic</h3>
-        <p>Matrix 210 integration, controlled trigger, UTF‑8 clean parsing.</p>
-        <div class="flex gap-2"><span class="badge2">RS‑232</span><span class="badge2">UTF‑8</span></div>
-        <p style="margin-top:8px;font-size:14px;color:var(--muted)">Latency &lt; 120ms</p>
-      </article>
-    </div>
-  </section>
-
-  <section id="about" class="block wrap">
-    <div class="mb-10"><h2>About Me</h2><p class="lead">A snapshot of who I am and how I work.</p></div>
-    <div class="cards" style="grid-template-columns:repeat(2,minmax(0,1fr))">
-      <article class="card shimmer">
-        <h3>📘 Profile</h3>
-        <p>SMT/Automation engineer with hands-on experience across AOI 3D (Omron VT‑S1080V2), TRI 2D AOI, TRI 3D SPI, and Seamark inline X‑ray. Strong in Python tooling, barcode integrations (RS‑232), and report dashboards.</p>
-      </article>
-      <article class="card shimmer">
-        <h3>🎓 Education</h3>
-        <ul>
-          <li>Mechanics & Electronics, continuous self‑learning and certifications.</li>
-        </ul>
-      </article>
-    </div>
-  </section>
-
-  <section id="capabilities" class="block wrap">
-    <div class="mb-10"><h2>Engineering Capabilities</h2><p class="lead">What this platform can communicate about your machines.</p></div>
-    <div class="cards" style="grid-template-columns:repeat(2,minmax(0,1fr))">
-      <article class="card shimmer">
-        <h3>⚙️ Data & Media</h3>
-        <ul>
-          <li>Attach AOI/X‑ray images per pad with deep‑zoom viewer.</li>
-          <li>Work‑order drill‑down, per‑LED stats, golden‑sample compare.</li>
-          <li>CSV import, MariaDB/SQLAlchemy integration ready.</li>
-        </ul>
-      </article>
-      <article class="card shimmer">
-        <h3>🛡️ Reliability</h3>
-        <ul>
-          <li>Offline‑first caching; graceful network recovery.</li>
-          <li>Role‑based access; audit logs for edits and reviews.</li>
-          <li>Export to PDF/Excel for manager reports.</li>
-        </ul>
-      </article>
-    </div>
-  </section>
-
-  <section id="gitbook" class="block wrap">
-    <div class="mb-10"><h2>Documentation</h2><p class="lead">Official docs hosted on GitBook.</p></div>
-    <div class="cards" style="grid-template-columns:repeat(2,minmax(0,1fr))">
-      <article class="card shimmer">
-        <h3>📘 LiCo Docs</h3>
-        <p>Browse structured documentation. Later we can list sections &amp; last‑updated info right here.</p>
-        <p><a class="btn-link" target="_blank" href="https://lico.gitbook.io/lico.-docs/">Open GitBook</a></p>
-      </article>
-      <article class="card shimmer">
-        <h3>🐙 Open‑source & Code</h3>
-        <p>Highlights pulled from your GitHub.</p>
-        <p><a class="btn-link" target="_blank" href="https://github.com/xdadeveloper707/FIlo.io">Open GitHub</a></p>
-      </article>
-    </div>
-  </section>
-
-  <section id="contact" class="block wrap">
-    <div class="mb-10"><h2>Let’s build your galaxy</h2><p class="lead">Tell us about your machine project and we’ll craft a stellar site.</p></div>
-    <article class="card shimmer">
-      <form class="grid" style="grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
-        <input placeholder="Your name" class="input"/>
-        <input placeholder="Email" class="input"/>
-        <input placeholder="Company / Team" class="input"/>
-        <textarea placeholder="Tell us about your machines, AOI/SPI models, and goals…" style="grid-column:1/-1;height:120px" class="input"></textarea>
-        <div class="flex items-center justify-between" style="grid-column:1/-1">
-          <div style="font-size:14px;color:var(--muted)">✉️ We reply in 24 hours</div>
-          <div class="flex gap-2">
-            <a class="btn-link" target="_blank" href="https://lico.gitbook.io/lico.-docs/">📘 GitBook</a>
-            <a class="btn-link" target="_blank" href="https://github.com/xdadeveloper707/FIlo.io">🐙 GitHub</a>
-            <button class="btn primary" type="button">Send Message</button>
-          </div>
-        </div>
-      </form>
-    </article>
-  </section>
 
   <footer>
     <div class="wrap flex items-center justify-between">
@@ -278,7 +214,7 @@
       <div class="flex gap-4">
         <a href="#">Privacy</a>
         <a href="#">Terms</a>
-        <a href="#contact">Contact</a>
+        <a id="footerContactLink">Contact</a>
       </div>
     </div>
   </footer>
@@ -286,33 +222,162 @@
   <div id="mechanicalModal" class="modal-wrap">
     <div class="modal-bg"></div>
     <div class="modal">
-      <button class="close-btn" id="closeMechanical">✖</button>
-      <h3>Mechanical Machine</h3>
+      <button class="close-btn">✖</button>
+      <h3>🔧 Mechanical Machine</h3>
       <div class="modal-content">
+        <h4>From Atoms to Automation</h4>
+        <p>Welcome to the "Mechanical Machine" section. This is more than just a catalog of equipment; it's a journey into the heart of modern manufacturing, where mechanical precision meets software intelligence to turn ideas into reality. Here, I detail my understanding and experience with a wide range of machinery—from those requiring a skilled human touch to those operating within a fully automated system.</p>
+        <p>My vision for machinery is to see each device not as a standalone tool, but as a critical node in a larger production ecosystem. The story of any product begins with understanding its core materials, continues with it being shaped with absolute precision, assembled at high speed, and finally validated by tireless digital eyes.</p>
         
-<h4>From Atoms to Automation</h4>
-<p>Welcome to the "Mechanical Machine" section. This is more than just a catalog of equipment; it's a journey into the heart of modern manufacturing, where mechanical precision meets software intelligence to turn ideas into reality. Here, I detail my understanding and experience with a wide range of machinery—from those requiring a skilled human touch to those operating within a fully automated system.</p>
-<p>My vision for machinery is to see each device not as a standalone tool, but as a critical node in a larger production ecosystem. The story of any product begins with understanding its core materials, continues with it being shaped with absolute precision, assembled at high speed, and finally validated by tireless digital eyes.</p>
-<h5>Scope of Expertise</h5>
-<ul>
-  <li><b>Electronics Manufacturing (SMT Line)</b>: A deep proficiency in the SMT production line: SPI → placement → AOI/X‑Ray.</li>
-  <li><b>Precision Machining (CNC Machines)</b>: Digital designs transformed into parts with micron-level accuracy.</li>
-  <li><b>Material Analysis (Rubber Analyze Machines)</b>: Validate raw material quality for durability and performance.</li>
-  <li><b>Automation & Systems Integration</b>: Robotics, conveyors, sensors, and universal equipment to glue the flow.</li>
-</ul>
-<h5>Core Concept: The Integrated Manufacturing Workflow</h5>
-<ol>
-  <li><b>The Foundation</b>: Analysis Machines verify base materials.</li>
-  <li><b>The Form</b>: CNC Machines shape precise components.</li>
-  <li><b>The Assembly</b>: SMT Line assembles electronics at speed.</li>
-  <li><b>The Validation</b>: AOI & X‑Ray guard quality.</li>
-  <li><b>The Integration</b>: Automation links stages for continuous flow.</li>
-</ol>
-<p>This section is a living document of my experience in the world of machinery. It stands as a testament to the fact that behind every advanced product lies a symphony of machines working in perfect harmony.</p>
-
+        <h4>Scope of Expertise</h4>
+        <p>My knowledge spans several key pillars of industrial machinery, which complement each other to create efficient and reliable workflows:</p>
+        <p><strong>Electronics Manufacturing (SMT Line):</strong> A deep proficiency in the Surface Mount Technology production line. This involves not just one machine, but the orchestration of an entire process: from Solder Paste Inspection (SPI), to high-precision component placement, and final inspection using AOI (Automated Optical Inspection) and X-Ray to ensure flawless solder joints.</p>
+        <p><strong>Precision Machining (CNC Machines):</strong> A fundamental understanding of CNC (Computer Numerical Control) machines, which form the backbone of mechanical component creation. This is where digital designs are transformed into physical objects with micron-level accuracy, whether for prototypes, jigs, or final parts.</p>
+        <p><strong>Material Analysis (Rubber Analyze Machines):</strong> Before a product can be formed, the quality of its raw materials must be guaranteed. My experience with rubber and other material analysis machines provides insight into how the fundamental properties of a substance will impact the final product's performance and durability.</p>
+        <p><strong>Automation & Systems Integration (Automation & Universal Equipment):</strong> Expertise in designing and understanding the automation systems that act as the "glue" for the entire process. This includes robotics, conveyor systems, sensors, and custom universal equipment designed to integrate different machines into a seamless and efficient workflow.</p>
+        
+        <h4>Core Concept: The Integrated Manufacturing Workflow</h4>
+        <p>In the following sub-sections, you will find more than just technical specifications. You will see how these machines "talk" to one another.</p>
+        <ol>
+            <li><strong>The Foundation:</strong> The process begins with Analysis Machines to ensure our base materials are of the highest quality.</li>
+            <li><strong>The Form:</strong> It continues with CNC Machines, which shape the framework or components with high precision.</li>
+            <li><strong>The Assembly:</strong> The workflow then moves to the SMT Line, where electronic components are assembled onto circuit boards at incredible speeds.</li>
+            <li><strong>The Validation:</strong> At every critical stage, Inspection Machines (AOI & X-Ray) act as the gatekeepers of quality.</li>
+            <li><strong>The Integration:</strong> All of these stages are connected by Automation Systems, ensuring a continuous and uninterrupted production flow.</li>
+        </ol>
+        <p>This section is a living document of my experience in the world of machinery. It stands as a testament to the fact that behind every advanced product lies a symphony of machines working in perfect harmony.</p>
       </div>
     </div>
   </div>
+
+  <div id="aboutModal" class="modal-wrap">
+    <div class="modal-bg"></div>
+    <div class="modal">
+        <button class="close-btn">✖</button>
+        <h3>About Me</h3>
+        <div class="modal-content">
+            <p>My name is Richo Listiantono (李克), an Indonesian engineer who has lived and worked in Taiwan for more than 7 years.</p>
+            <p>I am passionate about technology and engineering, with strong academic training in Computer-Aided Industrial Design and Computer & Network Engineering.</p>
+            <p>I began my career journey in Taiwan from internship, part-time, and full-time roles across different industries. Through these experiences, I developed a versatile background that combines mechanical engineering, electronics manufacturing, and software integration.</p>
+            <p>My professional mission is to create innovative, reliable, and cost-effective solutions that enhance quality, efficiency, and sustainability in manufacturing.</p>
+            <img src="https://images.unsplash.com/photo-1550751827-4138d04d475d?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1170&amp;q=80" alt="Circuit Board" style="width: 100%; border-radius: 12px; margin-top: 16px;">
+        </div>
+    </div>
+  </div>
+
+  <div id="experienceModal" class="modal-wrap">
+    <div class="modal-bg"></div>
+    <div class="modal">
+      <button class="close-btn">✖</button>
+      <h3>💼 Work Experience</h3>
+      <div class="modal-content">
+        <h4>SMT Engineer – Lianjia Optoelectronics Co., Ltd. (2024–Present)</h4>
+        <ul>
+            <li>Designed and continuously improved SMT assembly processes.</li>
+            <li>Troubleshooted and resolved process abnormalities.</li>
+            <li>Enhanced yield and reduced rejection rates by optimizing pass rates.</li>
+            <li>Implemented and verified special manufacturing procedures.</li>
+            <li>Adjusted parameters for SMT process optimization.</li>
+            <li>Evaluated and integrated new materials and components.</li>
+        </ul>
+
+        <h4>Mechanical Engineer – Ucan Technology Co., Ltd. (2022–2024)</h4>
+        <ul>
+            <li>Built rubber analysis machines from design to delivery.</li>
+            <li>Assembled and calibrated rheometers, viscometers, and universal testers.</li>
+            <li>Performed mechanical, electrical, and calibration tasks.</li>
+            <li>Collaborated with customers and multiple technical teams.</li>
+        </ul>
+
+        <h4>Operator – Yuan Tai Hing Enterprise Co., Ltd. (2018–2022)</h4>
+        <ul>
+            <li>Operated production machines from raw materials to final goods.</li>
+            <li>Managed packaging, placement, and shipment of finished products.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="skillsModal" class="modal-wrap">
+    <div class="modal-bg"></div>
+    <div class="modal">
+      <button class="close-btn">✖</button>
+      <h3>🛠️ Skills & Expertise</h3>
+      <div class="modal-content">
+        <h4>Engineering & Design</h4>
+        <ul>
+            <li><strong>SolidWorks (4+ years):</strong> Advanced 3D modeling, technical drawings, and product/system design.</li>
+            <li>Machine assembly, calibration, wiring, alignment, and testing.</li>
+            <li>Temperature calibration with precision reference sensors.</li>
+        </ul>
+
+        <h4>SMT & Inspection</h4>
+        <ul>
+            <li><strong>3D AOI (Omron VT-S1080V2):</strong> Setup, programming, defect analysis, MES integration, golden sample verification.</li>
+            <li><strong>TRI 2D AOI / SPI 3D:</strong> Debugging false calls, adjusting programs, improving efficiency.</li>
+            <li><strong>IPC-A-610:</strong> Standards for PCB quality, solder joints, reliability, and dimensional/electrical performance.</li>
+            <li><strong>X-Ray Inspection (Inline & Offline):</strong> Defect analysis, NDT, radiation safety, system optimization.</li>
+        </ul>
+
+        <h4>Software & Process Control</h4>
+        <ul>
+            <li>Programming with <strong>Python</strong> for automation and data analysis.</li>
+            <li>MES integration for inspection data traceability.</li>
+            <li>Process optimization and troubleshooting.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <div id="languagesModal" class="modal-wrap">
+    <div class="modal-bg"></div>
+    <div class="modal">
+      <button class="close-btn">✖</button>
+      <h3>🌐 Languages</h3>
+      <div class="modal-content">
+        <ul>
+          <li><strong>English:</strong> Proficient in reading, mastery in writing, moderate in speaking/listening.</li>
+          <li><strong>Indonesian:</strong> Native fluency.</li>
+          <li><strong>Chinese:</strong> Basic listening, speaking, and reading.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="visionModal" class="modal-wrap">
+    <div class="modal-bg"></div>
+    <div class="modal">
+      <button class="close-btn">✖</button>
+      <h3>Vision & Mission</h3>
+      <div class="modal-content">
+        <p>Content for Vision & Mission goes here.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="contactModal" class="modal-wrap">
+    <div class="modal-bg"></div>
+    <div class="modal">
+        <button class="close-btn">✖</button>
+        <h3>Let’s build your galaxy</h3>
+        <div class="modal-content">
+            <p class="lead" style="margin-top: -8px; margin-bottom: 16px;">Tell us about your machine project and we’ll craft a stellar site.</p>
+            <form class="grid" style="grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
+                <input placeholder="Your name" class="input"/>
+                <input placeholder="Email" class="input"/>
+                <input placeholder="Company / Team" class="input"/>
+                <textarea placeholder="Tell us about your machines, AOI/SPI models, and goals…" style="grid-column:1/-1;height:120px" class="input"></textarea>
+                <div class="flex items-center justify-between" style="grid-column:1/-1">
+                    <div style="font-size:14px;color:var(--muted)">✉️ We reply in 24 hours</div>
+                    <div class="flex gap-2">
+                        <button class="btn primary" type="button">Send Message</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+
 
 <script>
 // year
@@ -334,13 +399,40 @@ const io = 'IntersectionObserver' in window ? new IntersectionObserver((es)=>{
 },{threshold:.15}) : null;
 blocks.forEach(b=> io ? io.observe(b) : b.classList.add('reveal'));
 
-// Modal: Mechanical
-const mechLink = document.getElementById('mechanicalLink');
-const mechModal = document.getElementById('mechanicalModal');
-const mechClose = document.getElementById('closeMechanical');
-mechLink.addEventListener('click', (e)=>{ e.preventDefault(); mechModal.classList.add('open'); });
-mechClose.addEventListener('click', ()=> mechModal.classList.remove('open'));
-mechModal.querySelector('.modal-bg').addEventListener('click', ()=> mechModal.classList.remove('open'));
+// --- MODAL CONTROL ---
+function setupModal(linkId, modalId) {
+    const link = document.getElementById(linkId);
+    const modal = document.getElementById(modalId);
+    // Also check for footer link if it exists
+    const footerLink = document.getElementById('footer' + linkId.charAt(0).toUpperCase() + linkId.slice(1));
+    
+    if (!link || !modal) return;
+
+    const openModal = (e) => {
+        e.preventDefault();
+        modal.classList.add('open');
+    };
+    
+    const closeModal = () => {
+        modal.classList.remove('open');
+    };
+
+    link.addEventListener('click', openModal);
+    if(footerLink) footerLink.addEventListener('click', openModal);
+
+    modal.querySelector('.close-btn').addEventListener('click', closeModal);
+    modal.querySelector('.modal-bg').addEventListener('click', closeModal);
+}
+
+// Setup all modals
+setupModal('mechanicalLink', 'mechanicalModal');
+setupModal('aboutLink', 'aboutModal');
+setupModal('experienceLink', 'experienceModal');
+setupModal('skillsLink', 'skillsModal');
+setupModal('languagesLink', 'languagesModal');
+setupModal('visionLink', 'visionModal');
+setupModal('contactLink', 'contactModal');
+
 
 // Cursor FX
 const dot = document.getElementById('cursorDot');
