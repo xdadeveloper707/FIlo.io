@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Galaxy Machines — Single Page (HTML)</title>
+  <style>
+    :root {
+      --bg1:#0b1d3a; --bg2:#09132a; --bg3:#050915;
+      --glass: rgba(255,255,255,.08);
+      --border: rgba(255,255,255,.15);
+      --text: #e6eefc;
+      --muted: rgba(230,238,252,.75);
+      --gradA: rgba(99,102,241,.25);
+      --gradB: rgba(236,72,153,.18);
+      --gradC: rgba(14,165,233,.18);
+      --accent:#7cc7ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Arial,Helvetica,sans-serif;color:var(--text);background:#000;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+    header.nav{position:sticky;top:0;z-index:40;backdrop-filter:blur(12px);background:rgba(255,255,255,.05);border-bottom:1px solid var(--border)}
+    header .bar{height:64px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:8px;font-weight:600}
+    .badge{margin-left:8px;padding:2px 8px;border-radius:12px;background:var(--glass);border:1px solid var(--border);font-size:12px}
+    nav.links{display:flex;gap:24px;font-size:14px;color:var(--muted)}
+    nav.links a:hover{color:#fff}
+    .grid{display:grid;gap:24px}
+    .grid-2{grid-template-columns:280px 1fr}
+    .sidebar{position:sticky;top:80px;height:calc(100vh - 100px);padding:24px 12px;border-right:1px solid var(--border);background:rgba(255,255,255,.05);backdrop-filter:blur(12px);overflow:auto}
+    .side-title{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(230,238,252,.6);margin:0 0 8px;display:flex;align-items:center;gap:6px}
+    .side-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+    .side-item a{display:flex;align-items:center;gap:8px;color:var(--muted)}
+    .side-item a:hover{color:#fff}
+    .motion-hover{display:inline-flex;transition:transform .18s ease}
+    .motion-hover:hover{transform:translateX(4px)}
+    .hero{padding:96px 0}
+    .title{font-weight:700;font-size:48px;line-height:1.1}
+    .title .grad{background:linear-gradient(90deg,#7cc7ff,#d6dbff,#f8a8e8);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .lead{margin-top:16px;max-width:720px;color:var(--muted);font-size:18px}
+    .btns{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
+    .btn{padding:12px 16px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.08);color:#e8eeff;cursor:pointer}
+    .btn.primary{background:rgba(99,102,241,.6);border-color:rgba(255,255,255,.3)}
+    .pills{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
+    .pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--border);font-size:12px}
+    section.block{padding:64px 0;opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+    section.block.reveal{opacity:1;transform:translateY(0)}
+    .cards{display:grid;gap:24px;grid-template-columns:repeat(3,minmax(0,1fr))}
+    .card{position:relative;border-radius:16px;overflow:hidden;background:var(--glass);border:1px solid var(--border);padding:18px;backdrop-filter:blur(10px)}
+    .shimmer::before{content:"";pointer-events:none;position:absolute;inset:-2px;opacity:0;transition:opacity .25s ease;background:linear-gradient(110deg,transparent,rgba(255,255,255,.20),transparent);transform:translateX(-60%);animation:shimmer 2.2s linear infinite}
+    .card:hover.shimmer::before{opacity:1}
+    @keyframes shimmer{0%{transform:translateX(-60%)}100%{transform:translateX(60%)}}
+    .badge2{display:inline-block;padding:2px 8px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid var(--border);font-size:12px;color:var(--muted)}
+    footer{border-top:1px solid var(--border);background:rgba(255,255,255,.05);backdrop-filter:blur(12px);padding:32px 0;color:var(--muted)}
+    /* FX layers */
+    canvas#starfield{position:fixed;inset:0;z-index:-10;width:100vw;height:100vh}
+    .overlayA,.overlayB,.overlayC,.noise{position:fixed;inset:0;pointer-events:none;z-index:-10}
+    .overlayA{background:radial-gradient(ellipse at center,rgba(99,102,241,.15),transparent 60%);mix-blend:screen}
+    .overlayB{background:linear-gradient(transparent,rgba(0,0,0,.4))}
+    .overlayC{opacity:.6;background:radial-gradient(600px 300px at 20% 10%, var(--gradA), transparent),radial-gradient(500px 250px at 80% 20%, var(--gradB), transparent),radial-gradient(700px 350px at 50% 80%, var(--gradC), transparent)}
+    .noise{mix-blend-mode:soft-light;background-size:cover}
+    .float-orbs > div{position:absolute;border-radius:9999px;filter:blur(40px);animation:floatOrb 12s ease-in-out infinite}
+    .float-orbs .o1{top:80px;left:40px;width:280px;height:280px;background:linear-gradient(135deg,rgba(125,180,255,.15),rgba(80,110,255,.1))}
+    .float-orbs .o2{right:80px;bottom:40px;width:320px;height:320px;background:linear-gradient(135deg,rgba(255,120,210,.15),rgba(120,200,255,.1));animation-duration:14s;animation-delay:-2s}
+    .float-orbs .o3{left:50%;top:50%;transform:translate(-50%,-50%);width:380px;height:380px;background:linear-gradient(135deg,rgba(120,160,255,.1),rgba(240,140,255,.1));animation-duration:18s;animation-delay:-4s}
+    @keyframes floatOrb{0%{transform:translate(0,0)}50%{transform:translate(10px,-20px)}100%{transform:translate(0,0)}}
+    /* Modal */
+    .modal-wrap{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:60}
+    .modal-wrap.open{display:flex}
+    .modal-bg{position:absolute;inset:0;background:rgba(0,0,0,.6)}
+    .modal{position:relative;z-index:1;width:min(800px,92vw);border-radius:16px;border:1px solid var(--border);background:rgba(255,255,255,.1);backdrop-filter:blur(20px);padding:20px}
+    .modal h3{margin:0 0 8px}
+    .close-btn{position:absolute;right:14px;top:14px;background:rgba(255,255,255,.1);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:6px 8px;cursor:pointer}
+    .scrollbar::-webkit-scrollbar{height:8px}
+    .scrollbar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:8px}
+    /* Top progress bar */
+    .progress{position:fixed;top:0;left:0;right:0;height:3px;background:transparent;z-index:70}
+    .progress > div{height:100%;background:linear-gradient(90deg,#7cc7ff,#8ea0ff,#f39be0);width:0%}
+    /* Cursor FX */
+    .cursor-dot{position:fixed;width:14px;height:14px;background:rgba(255,255,255,.6);border-radius:9999px;pointer-events:none;z-index:80;filter:blur(1px);transform:translate(-50%,-50%)}
+    .particle{position:fixed;width:8px;height:8px;border-radius:9999px;pointer-events:none;z-index:80;animation:explode .6s ease forwards}
+    @keyframes explode{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(3)}}
+    /* Utilities */
+    .mt-16{margin-top:64px}
+    .mb-10{margin-bottom:40px}
+    .flex{display:flex} .gap-8{gap:32px} .gap-4{gap:16px} .gap-2{gap:8px}
+    .items-center{align-items:center} .justify-between{justify-content:space-between}
+    .btn-link{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid var(--border)}
+    .input{border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.08);color:var(--text);padding:10px 12px;outline:none}
+  </style>
+</head>
+<body>
+  <!-- FX layers -->
+  <div class="progress"><div id="progressBar"></div></div>
+  <canvas id="starfield"></canvas>
+  <div class="float-orbs"><div class="o1"></div><div class="o2"></div><div class="o3"></div></div>
+  <div class="overlayA"></div>
+  <div class="overlayB"></div>
+  <div class="overlayC"></div>
+  <div class="noise" style="background-image:url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'1600\' height=\'900\'><filter id=\'n\'><feTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'2\'/></filter><rect width=\'100%\' height=\'100%\' filter=\'url(%23n)\' opacity=\'0.03\'/></svg>')"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="wrap bar">
+      <div class="brand">🚀 Galaxy Machines <span class="badge">v1.0</span></div>
+      <nav class="links">
+        <a href="#features">Features</a>
+        <a href="#projects">Projects</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="flex gap-2">
+        <a class="btn-link" href="https://lico.gitbook.io/lico.-docs/" target="_blank">📘 GitBook</a>
+        <a class="btn-link" href="https://github.com/xdadeveloper707/FIlo.io" target="_blank">🐙 GitHub</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO + SIDEBAR -->
+  <div class="wrap grid grid-2 mt-16">
+    <aside class="sidebar">
+      <p class="side-title">Work Project</p>
+      <ul class="side-list">
+        <li class="side-item"><a id="mechanicalLink" href="#" class="motion-hover">🔧 Mechanical Machine</a></li>
+        <li class="side-item"><a href="#software" class="motion-hover">💻 Software Project</a></li>
+        <li class="side-item"><a href="#design" class="motion-hover">🖥️ Design Project</a></li>
+        <li class="side-item"><a href="#computer" class="motion-hover">🧠 Computer Engineering</a></li>
+      </ul>
+      <p class="side-title" style="margin-top:18px">Getting Started</p>
+      <ul class="side-list">
+        <li><a href="#about" class="motion-hover">About Me</a></li>
+        <li><a href="#experience" class="motion-hover">Work Experience</a></li>
+        <li><a href="#skills" class="motion-hover">Skills & Expertise</a></li>
+        <li><a href="#languages" class="motion-hover">Languages</a></li>
+        <li><a href="#vision" class="motion-hover">Vision & Mission</a></li>
+        <li><a href="#contact" class="motion-hover">Contact</a></li>
+      </ul>
+
+      <div style="margin-top:18px" class="flex gap-2">
+        <a class="btn-link" href="https://lico.gitbook.io/lico.-docs/" target="_blank">📘 GitBook</a>
+        <a class="btn-link" href="https://github.com/xdadeveloper707/FIlo.io" target="_blank">🐙 GitHub</a>
+      </div>
+    </aside>
+
+    <section class="hero">
+      <h1 class="title">Industrial <span class="grad">Automation</span>, Galaxy-Grade Design.</h1>
+      <p class="lead">Showcase your SMT, AOI, SPI, and inline X-ray projects in a glassy, dark-blue universe. Built for speed, precision, and wow-factor.</p>
+      <div class="btns">
+        <button class="btn primary">Launch Demo</button>
+        <button class="btn">Explore Projects</button>
+      </div>
+      <div class="pills">
+        <span class="pill">3D AOI • VT-S1080V2</span>
+        <span class="pill">TRI 2D AOI • 3D SPI</span>
+        <span class="pill">Inline X-ray • Seamark</span>
+        <span class="pill">Barcode Integrations</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- FEATURES -->
+  <section id="features" class="block wrap">
+    <div class="mb-10"><h2>Core Features</h2><p class="lead">Designed to present complex manufacturing data with clarity and style.</p></div>
+    <div class="cards">
+      <article class="card shimmer">
+        <h3>⚡ Real-time Dashboards</h3>
+        <p>Live KPIs, pass-rate, void-rate trends with smooth graphs and exports.</p>
+      </article>
+      <article class="card shimmer">
+        <h3>🛡️ Traceability</h3>
+        <p>WO, lot, PCB, and LED index linked to images, AOI results, and X-ray.</p>
+      </article>
+      <article class="card shimmer">
+        <h3>🚀 Fast & Responsive</h3>
+        <p>Optimized frontend + API for snappy navigation even on the shop floor.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="block wrap">
+    <div class="mb-10"><h2>Showcase Projects</h2><p class="lead">Hand-picked case studies from your production line.</p></div>
+    <div class="cards">
+      <article class="card shimmer">
+        <h3>🧠 T1UL Lower • 160 LED / PCB</h3>
+        <p>3D AOI program & inline X-ray correlation on flexible PCB.</p>
+        <div class="flex gap-2"><span class="badge2">AOI 3D</span><span class="badge2">Void Analysis</span></div>
+        <p style="margin-top:8px;font-size:14px;color:var(--muted)">Pass 98.4%</p>
+      </article>
+      <article class="card shimmer">
+        <h3>🔍 T1UL Upper • 9 LED / PCB</h3>
+        <p>Inline X-ray (Seamark) with SPI pre-check; LED index mapping.</p>
+        <div class="flex gap-2"><span class="badge2">Inline X-ray</span><span class="badge2">SPI</span></div>
+        <p style="margin-top:8px;font-size:14px;color:var(--muted)">Void ≤ 8%</p>
+      </article>
+      <article class="card shimmer">
+        <h3>📦 Barcode Flow • Datalogic</h3>
+        <p>Matrix 210 integration, controlled trigger, UTF-8 clean parsing.</p>
+        <div class="flex gap-2"><span class="badge2">RS-232</span><span class="badge2">UTF-8</span></div>
+        <p style="margin-top:8px;font-size:14px;color:var(--muted)">Latency &lt; 120ms</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="block wrap">
+    <div class="mb-10"><h2>About Me</h2><p class="lead">A snapshot of who I am and how I work.</p></div>
+    <div class="cards" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+      <article class="card shimmer">
+        <h3>📘 Profile</h3>
+        <p>SMT/Automation engineer with hands-on experience across AOI 3D (Omron VT-S1080V2), TRI 2D AOI, TRI 3D SPI, and Seamark inline X-ray. Strong in Python tooling, barcode integrations (RS-232), and report dashboards.</p>
+      </article>
+      <article class="card shimmer">
+        <h3>🎓 Education</h3>
+        <ul>
+          <li>Mechanics & Electronics, continuous self-learning and certifications.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- CAPABILITIES -->
+  <section id="capabilities" class="block wrap">
+    <div class="mb-10"><h2>Engineering Capabilities</h2><p class="lead">What this platform can communicate about your machines.</p></div>
+    <div class="cards" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+      <article class="card shimmer">
+        <h3>⚙️ Data & Media</h3>
+        <ul>
+          <li>Attach AOI/X-ray images per pad with deep-zoom viewer.</li>
+          <li>Work-order drill-down, per-LED stats, golden-sample compare.</li>
+          <li>CSV import, MariaDB/SQLAlchemy integration ready.</li>
+        </ul>
+      </article>
+      <article class="card shimmer">
+        <h3>🛡️ Reliability</h3>
+        <ul>
+          <li>Offline-first caching; graceful network recovery.</li>
+          <li>Role-based access; audit logs for edits and reviews.</li>
+          <li>Export to PDF/Excel for manager reports.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- GITBOOK / CODE -->
+  <section id="gitbook" class="block wrap">
+    <div class="mb-10"><h2>Documentation</h2><p class="lead">Official docs hosted on GitBook.</p></div>
+    <div class="cards" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+      <article class="card shimmer">
+        <h3>📘 LiCo Docs</h3>
+        <p>Browse structured documentation. Later we can list sections &amp; last-updated info right here.</p>
+        <p><a class="btn-link" target="_blank" href="https://lico.gitbook.io/lico.-docs/">Open GitBook</a></p>
+      </article>
+      <article class="card shimmer">
+        <h3>🐙 Open-source & Code</h3>
+        <p>Highlights pulled from your GitHub.</p>
+        <p><a class="btn-link" target="_blank" href="https://github.com/xdadeveloper707/FIlo.io">Open GitHub</a></p>
+      </article>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="block wrap">
+    <div class="mb-10"><h2>Let’s build your galaxy</h2><p class="lead">Tell us about your machine project and we’ll craft a stellar site.</p></div>
+    <article class="card shimmer">
+      <form class="grid" style="grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
+        <input placeholder="Your name" class="input"/>
+        <input placeholder="Email" class="input"/>
+        <input placeholder="Company / Team" class="input"/>
+        <textarea placeholder="Tell us about your machines, AOI/SPI models, and goals…" style="grid-column:1/-1;height:120px" class="input"></textarea>
+        <div class="flex items-center justify-between" style="grid-column:1/-1">
+          <div style="font-size:14px;color:var(--muted)">✉️ We reply in 24 hours</div>
+          <div class="flex gap-2">
+            <a class="btn-link" target="_blank" href="https://lico.gitbook.io/lico.-docs/">📘 GitBook</a>
+            <a class="btn-link" target="_blank" href="https://github.com/xdadeveloper707/FIlo.io">🐙 GitHub</a>
+            <button class="btn primary" type="button">Send Message</button>
+          </div>
+        </div>
+      </form>
+    </article>
+  </section>
+
+  <footer>
+    <div class="wrap flex items-center justify-between">
+      <div>© <span id="year"></span> Galaxy Machines. All rights reserved.</div>
+      <div class="flex gap-4">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mechanical Modal -->
+  <div id="mechanicalModal" class="modal-wrap">
+    <div class="modal-bg"></div>
+    <div class="modal">
+      <button class="close-btn" id="closeMechanical">✖</button>
+      <h3>Mechanical Machine</h3>
+      <div class="modal-content">
+        <h4>From Atoms to Automation</h4>
+        <p>Welcome to the "Mechanical Machine" section. This is more than just a catalog of equipment; it's a journey into the heart of modern manufacturing, where mechanical precision meets software intelligence to turn ideas into reality. Here, I detail my understanding and experience with a wide range of machinery—from those requiring a skilled human touch to those operating within a fully automated system.</p>
+        <p>My vision for machinery is to see each device not as a standalone tool, but as a critical node in a larger production ecosystem. The story of any product begins with understanding its core materials, continues with it being shaped with absolute precision, assembled at high speed, and finally validated by tireless digital eyes.</p>
+        <h5>Scope of Expertise</h5>
+        <ul>
+          <li><b>Electronics Manufacturing (SMT Line)</b>: A deep proficiency in the SMT production line: SPI → placement → AOI/X-Ray.</li>
+          <li><b>Precision Machining (CNC Machines)</b>: Digital designs transformed into parts with micron-level accuracy.</li>
+          <li><b>Material Analysis (Rubber Analyze Machines)</b>: Validate raw material quality for durability and performance.</li>
+          <li><b>Automation & Systems Integration</b>: Robotics, conveyors, sensors, and universal equipment to glue the flow.</li>
+        </ul>
+        <h5>Core Concept: The Integrated Manufacturing Workflow</h5>
+        <ol>
+          <li><b>The Foundation</b>: Analysis Machines verify base materials.</li>
+          <li><b>The Form</b>: CNC Machines shape precise components.</li>
+          <li><b>The Assembly</b>: SMT Line assembles electronics at speed.</li>
+          <li><b>The Validation</b>: AOI & X-Ray guard quality.</li>
+          <li><b>The Integration</b>: Automation links stages for continuous flow.</li>
+        </ol>
+        <p>This section is a living document of my experience in the world of machinery. It stands as a testament to the fact that behind every advanced product lies a symphony of machines working in perfect harmony.</p>
+      </div>
+    </div>
+  </div>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// scroll progress + reveal
+const blocks = Array.from(document.querySelectorAll('section.block'));
+const progressBar = document.getElementById('progressBar');
+const onScroll = () => {
+  const h = document.documentElement;
+  const v = (h.scrollTop)/(h.scrollHeight - h.clientHeight || 1);
+  progressBar.style.width = (v*100).toFixed(2)+'%';
+};
+onScroll();
+window.addEventListener('scroll', onScroll, {passive:true});
+
+const io = 'IntersectionObserver' in window ? new IntersectionObserver((es)=>{
+  es.forEach(e=> e.isIntersecting && e.target.classList.add('reveal'));
+},{threshold:.15}) : null;
+blocks.forEach(b=> io ? io.observe(b) : b.classList.add('reveal'));
+
+// Modal: Mechanical
+const mechLink = document.getElementById('mechanicalLink');
+const mechModal = document.getElementById('mechanicalModal');
+const mechClose = document.getElementById('closeMechanical');
+mechLink.addEventListener('click', (e)=>{ e.preventDefault(); mechModal.classList.add('open'); });
+mechClose.addEventListener('click', ()=> mechModal.classList.remove('open'));
+mechModal.querySelector('.modal-bg').addEventListener('click', ()=> mechModal.classList.remove('open'));
+
+// Cursor FX
+const dot = document.getElementById('cursorDot');
+window.addEventListener('mousemove', (e)=>{
+  dot.style.left = e.clientX+'px';
+  dot.style.top = e.clientY+'px';
+});
+window.addEventListener('click', (e)=>{
+  const span = document.createElement('span');
+  span.className='particle';
+  const hue = Math.floor(200 + Math.random()*80);
+  span.style.left = e.clientX+'px';
+  span.style.top = e.clientY+'px';
+  span.style.background = `hsl(${hue} 100% 70% / .9)`;
+  span.style.boxShadow = `0 0 12px hsl(${hue} 100% 70% / .8)`;
+  document.body.appendChild(span);
+  setTimeout(()=> span.remove(), 600);
+});
+
+// Starfield
+(function initStarfield(){
+  const canvas = document.getElementById('starfield');
+  const ctx = canvas.getContext('2d');
+  let dpr = Math.max(1, window.devicePixelRatio || 1);
+  let w=0,h=0, anim;
+  const L = [
+    {n:120,s:0.05,r:[.6,1],a:.7},
+    {n:80, s:0.12,r:[.9,1.6],a:.85},
+    {n:40, s:0.25,r:[1.2,2.2],a:1},
+  ];
+  let S=[];
+  const R=(m,M)=>Math.random()*(M-m)+m;
+  const resize=()=>{
+    w = canvas.clientWidth = window.innerWidth;
+    h = canvas.clientHeight = window.innerHeight;
+    canvas.width = Math.floor(w*dpr);
+    canvas.height = Math.floor(h*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    S=[]; L.forEach(l=>{ for(let i=0;i<l.n;i++) S.push({x:Math.random()*w,y:Math.random()*h,r:R(l.r[0],l.r[1]),s:l.s,a:R(.6*l.a,l.a)}); });
+  };
+  const grad=()=>{ const g=ctx.createRadialGradient(w*.5,h*.2,0,w*.5,h*.2,Math.max(w,h)); g.addColorStop(0,'#0b1d3a'); g.addColorStop(.5,'#09132a'); g.addColorStop(1,'#050915'); return g; };
+  const tick=()=>{
+    ctx.clearRect(0,0,w,h); ctx.fillStyle=grad(); ctx.fillRect(0,0,w,h);
+    const neb = ctx.createLinearGradient(0,0,w,h); neb.addColorStop(0,'rgba(80,120,255,.10)'); neb.addColorStop(1,'rgba(180,100,255,.06)');
+    ctx.fillStyle=neb; ctx.fillRect(0,0,w,h);
+    for(const s of S){ ctx.globalAlpha=s.a; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle='#cfe6ff'; ctx.fill();
+      ctx.globalAlpha=s.a*.6; ctx.fillRect(s.x-s.s*2,s.y,s.r*.8,.6); s.x+=s.s; if(s.x>w+2) s.x=-2; }
+    ctx.globalAlpha=1; anim=requestAnimationFrame(tick);
+  };
+  resize(); window.addEventListener('resize', resize); anim=requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
