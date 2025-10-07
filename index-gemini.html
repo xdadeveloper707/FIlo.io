@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Galaxy Machines — Single Page (HTML)</title>
+  <title>Galaxy Machines — $1M Edition</title>
   <style>
     :root {
       --bg1:#0b1d3a; --bg2:#09132a; --bg3:#050915;
@@ -27,7 +27,7 @@
     .brand{display:flex;align-items:center;gap:8px;font-weight:600}
     .badge{margin-left:8px;padding:2px 8px;border-radius:12px;background:var(--glass);border:1px solid var(--border);font-size:12px}
     nav.links{display:flex;gap:24px;font-size:14px;color:var(--muted)}
-    nav.links a{transition: color 0.3s ease;}
+    nav.links a{transition: color 0.3s ease; display: inline-block;}
     nav.links a:hover{color:#fff}
     .grid{display:grid;gap:24px}
     .grid-2{grid-template-columns:280px 1fr}
@@ -37,7 +37,8 @@
     .side-item a{display:flex;align-items:center;gap:8px;color:var(--muted);transition:transform 0.3s ease, color 0.3s ease; cursor: pointer;}
     .side-item a:hover{color:#fff;transform:translateX(4px)}
     .hero{padding:96px 0}
-    .title{font-weight:700;font-size:48px;line-height:1.1}
+    .title{font-weight:700;font-size:48px;line-height:1.1; overflow: hidden;}
+    .title .line { display: block; }
     .title .grad{background:linear-gradient(90deg,#7cc7ff,#d6dbff,#f8a8e8);-webkit-background-clip:text;background-clip:text;color:transparent}
     .lead{margin-top:16px;max-width:720px;color:var(--muted);font-size:18px}
     .btns{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
@@ -47,14 +48,12 @@
     .btn.primary:hover{background:rgba(99,102,241,.8);}
     .pills{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
     .pill{padding:6px 10px;border-radius:999px;background:var(--glass);border:1px solid var(--border);font-size:12px}
-    section.block{padding:64px 0;opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
-    section.block.reveal{opacity:1;transform:translateY(0)}
+    section.block{padding:64px 0;}
     .cards{display:grid;gap:24px;grid-template-columns:repeat(3,minmax(0,1fr))}
     .card{position:relative;border-radius:16px;overflow:hidden;background:var(--glass);border:1px solid var(--border);padding:24px;backdrop-filter:blur(10px); box-shadow: var(--shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease;}
-    .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-md);}
-    .shimmer::before{content:"";pointer-events:none;position:absolute;inset:-2px;opacity:0;transition:opacity .25s ease;background:linear-gradient(110deg,transparent,rgba(255,255,255,.20),transparent);transform:translateX(-60%);animation:shimmer 2.2s linear infinite}
-    .card:hover.shimmer::before{opacity:1}
-    @keyframes shimmer{0%{transform:translateX(-60%)}100%{transform:translateX(60%)}}
+    .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(255,255,255,0.1), transparent 20%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none;}
+    .card:hover::before { opacity: 1; }
+    .card:hover { transform: translateY(-8px) scale(1.02); box-shadow: var(--shadow-md);}
     .badge2{display:inline-block;padding:2px 8px;border-radius:10px;background:var(--glass);border:1px solid var(--border);font-size:12px;color:var(--muted)}
     footer{border-top:1px solid var(--border);background:rgba(11, 29, 58, 0.7);backdrop-filter:blur(12px);padding:32px 0;color:var(--muted)}
     /* FX layers */
@@ -81,16 +80,15 @@
     .modal ul { list-style-position: inside; padding-left: 0; margin: 0; color: var(--muted); }
     .modal ol { list-style-position: inside; padding-left: 0; margin: 0; color: var(--muted); }
     .modal li { margin-bottom: 8px; line-height: 1.6; }
-    .close-btn{position:absolute;right:14px;top:14px;background:rgba(255,255,255,.1);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:6px 8px;cursor:pointer}
+    .close-btn{position:absolute;right:14px;top:14px;background:rgba(255,255,255,.1);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:6px 8px;cursor:pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;}
+    .close-btn:hover { transform: scale(1.1) rotate(90deg); box-shadow: 0 0 15px var(--accent);}
     .scrollbar::-webkit-scrollbar{height:8px}
     .scrollbar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:8px}
     /* Top progress bar */
     .progress{position:fixed;top:0;left:0;right:0;height:3px;background:transparent;z-index:70}
     .progress > div{height:100%;background:linear-gradient(90deg,#7cc7ff,#8ea0ff,#f39be0);width:0%}
     /* Cursor FX */
-    .cursor-dot{position:fixed;width:14px;height:14px;background:rgba(255,255,255,.6);border-radius:9999px;pointer-events:none;z-index:80;filter:blur(1px);transform:translate(-50%,-50%)}
-    .particle{position:fixed;width:8px;height:8px;border-radius:9999px;pointer-events:none;z-index:80;animation:explode .6s ease forwards}
-    @keyframes explode{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(3)}}
+    .cursor-dot { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease; mix-blend-mode: difference; }
     /* Utilities */
     .mt-16{margin-top:64px}
     .mb-10{margin-bottom:40px}
@@ -101,6 +99,9 @@
     .input{border-radius:12px;border:1px solid var(--border);background:var(--glass);color:var(--text);padding:10px 12px;outline:none; transition: box-shadow 0.3s ease;}
     .input:focus {box-shadow: 0 0 0 2px var(--accent);}
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/split-type"></script>
 </head>
 <body>
   <div class="progress"><div id="progressBar"></div></div>
@@ -109,16 +110,16 @@
   <div class="overlayA"></div>
   <div class="overlayB"></div>
   <div class="overlayC"></div>
-  <div class="noise" style="background-image:url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'1600\' height=\'900\'><filter id=\'n\'><feTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'2\'/></filter><rect width=\'100%\' height=\'100%\' filter=\'url(%23n)\' opacity=\'0.03\'/></svg>')"></div>
+  <div class="noise" style="background-image:url('data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='900'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.03'/></svg>')"></div>
   <div class="cursor-dot" id="cursorDot"></div>
 
   <header class="nav">
     <div class="wrap bar">
       <div class="brand">🚀 Galaxy Machines <span class="badge">v1.0</span></div>
       <nav class="links">
-        <a href="#features">Features</a>
-        <a href="#projects">Projects</a>
-        <a href="#capabilities">Capabilities</a>
+        <a href="#features" class="magnetic">Features</a>
+        <a href="#projects" class="magnetic">Projects</a>
+        <a href="#capabilities" class="magnetic">Capabilities</a>
       </nav>
       <div class="flex gap-2">
         <a class="btn-link" href="https://lico.gitbook.io/lico.-docs/" target="_blank">📘 GitBook</a>
@@ -149,13 +150,13 @@
 
     <main>
       <section class="hero">
-        <h1 class="title">Industrial <span class="grad">Automation</span>, Galaxy‑Grade Design.</h1>
-        <p class="lead">Showcase your SMT, AOI, SPI, and inline X‑ray projects in a glassy, dark‑blue universe. Built for speed, precision, and wow‑factor.</p>
-        <div class="btns">
-          <button class="btn primary">Launch Demo</button>
-          <button class="btn">Explore Projects</button>
+        <h1 class="title" id="main-title">Industrial <span class="grad">Automation</span>, Galaxy‑Grade Design.</h1>
+        <p class="lead anim-fade-up">Showcase your SMT, AOI, SPI, and inline X‑ray projects in a glassy, dark‑blue universe. Built for speed, precision, and wow‑factor.</p>
+        <div class="btns anim-fade-up">
+          <button class="btn primary magnetic">Launch Demo</button>
+          <button class="btn magnetic">Explore Projects</button>
         </div>
-        <div class="pills">
+        <div class="pills anim-fade-up">
           <span class="pill">3D AOI • VT‑S1080V2</span>
           <span class="pill">TRI 2D AOI • 3D SPI</span>
           <span class="pill">Inline X‑ray • Seamark</span>
@@ -164,17 +165,17 @@
       </section>
 
       <section id="features" class="block wrap">
-        <div class="mb-10"><h2>Core Features</h2><p class="lead">Designed to present complex manufacturing data with clarity and style.</p></div>
+        <div class="mb-10 anim-fade-up"><h2>Core Features</h2><p class="lead">Designed to present complex manufacturing data with clarity and style.</p></div>
         <div class="cards">
-          <article class="card shimmer">
+          <article class="card shimmer anim-card">
             <h3>⚡ Real‑time Dashboards</h3>
             <p>Live KPIs, pass‑rate, void‑rate trends with smooth graphs and exports.</p>
           </article>
-          <article class="card shimmer">
+          <article class="card shimmer anim-card">
             <h3>🛡️ Traceability</h3>
             <p>WO, lot, PCB, and LED index linked to images, AOI results, and X‑ray.</p>
           </article>
-          <article class="card shimmer">
+          <article class="card shimmer anim-card">
             <h3>🚀 Fast & Responsive</h3>
             <p>Optimized frontend + API for snappy navigation even on the shop floor.</p>
           </article>
@@ -182,21 +183,21 @@
       </section>
 
       <section id="projects" class="block wrap">
-        <div class="mb-10"><h2>Showcase Projects</h2><p class="lead">Hand‑picked case studies from your production line.</p></div>
+        <div class="mb-10 anim-fade-up"><h2>Showcase Projects</h2><p class="lead">Hand‑picked case studies from your production line.</p></div>
         <div class="cards">
-          <article class="card shimmer">
+          <article class="card shimmer anim-card">
             <h3>🧠 T1UL Lower • 160 LED / PCB</h3>
             <p>3D AOI program & inline X‑ray correlation on flexible PCB.</p>
             <div class="flex gap-2"><span class="badge2">AOI 3D</span><span class="badge2">Void Analysis</span></div>
             <p style="margin-top:8px;font-size:14px;color:var(--muted)">Pass 98.4%</p>
           </article>
-          <article class="card shimmer">
+          <article class="card shimmer anim-card">
             <h3>🔍 T1UL Upper • 9 LED / PCB</h3>
             <p>Inline X‑ray (Seamark) with SPI pre-check; LED index mapping.</p>
             <div class="flex gap-2"><span class="badge2">Inline X‑ray</span><span class="badge2">SPI</span></div>
             <p style="margin-top:8px;font-size:14px;color:var(--muted)">Void ≤ 8%</p>
           </article>
-          <article class="card shimmer">
+          <article class="card shimmer anim-card">
             <h3>📦 Barcode Flow • Datalogic</h3>
             <p>Matrix 210 integration, controlled trigger, UTF‑8 clean parsing.</p>
             <div class="flex gap-2"><span class="badge2">RS‑232</span><span class="badge2">UTF‑8</span></div>
@@ -228,14 +229,12 @@
         <h4>From Atoms to Automation</h4>
         <p>Welcome to the "Mechanical Machine" section. This is more than just a catalog of equipment; it's a journey into the heart of modern manufacturing, where mechanical precision meets software intelligence to turn ideas into reality. Here, I detail my understanding and experience with a wide range of machinery—from those requiring a skilled human touch to those operating within a fully automated system.</p>
         <p>My vision for machinery is to see each device not as a standalone tool, but as a critical node in a larger production ecosystem. The story of any product begins with understanding its core materials, continues with it being shaped with absolute precision, assembled at high speed, and finally validated by tireless digital eyes.</p>
-        
         <h4>Scope of Expertise</h4>
         <p>My knowledge spans several key pillars of industrial machinery, which complement each other to create efficient and reliable workflows:</p>
         <p><strong>Electronics Manufacturing (SMT Line):</strong> A deep proficiency in the Surface Mount Technology production line. This involves not just one machine, but the orchestration of an entire process: from Solder Paste Inspection (SPI), to high-precision component placement, and final inspection using AOI (Automated Optical Inspection) and X-Ray to ensure flawless solder joints.</p>
         <p><strong>Precision Machining (CNC Machines):</strong> A fundamental understanding of CNC (Computer Numerical Control) machines, which form the backbone of mechanical component creation. This is where digital designs are transformed into physical objects with micron-level accuracy, whether for prototypes, jigs, or final parts.</p>
         <p><strong>Material Analysis (Rubber Analyze Machines):</strong> Before a product can be formed, the quality of its raw materials must be guaranteed. My experience with rubber and other material analysis machines provides insight into how the fundamental properties of a substance will impact the final product's performance and durability.</p>
         <p><strong>Automation & Systems Integration (Automation & Universal Equipment):</strong> Expertise in designing and understanding the automation systems that act as the "glue" for the entire process. This includes robotics, conveyor systems, sensors, and custom universal equipment designed to integrate different machines into a seamless and efficient workflow.</p>
-        
         <h4>Core Concept: The Integrated Manufacturing Workflow</h4>
         <p>In the following sub-sections, you will find more than just technical specifications. You will see how these machines "talk" to one another.</p>
         <ol>
@@ -260,7 +259,7 @@
             <p>I am passionate about technology and engineering, with strong academic training in Computer-Aided Industrial Design and Computer & Network Engineering.</p>
             <p>I began my career journey in Taiwan from internship, part-time, and full-time roles across different industries. Through these experiences, I developed a versatile background that combines mechanical engineering, electronics manufacturing, and software integration.</p>
             <p>My professional mission is to create innovative, reliable, and cost-effective solutions that enhance quality, efficiency, and sustainability in manufacturing.</p>
-            <img src="https://images.unsplash.com/photo-1550751827-4138d04d475d?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1170&amp;q=80" alt="Circuit Board" style="width: 100%; border-radius: 12px; margin-top: 16px;">
+            <img src="https://images.unsplash.com/photo-1550751827-4138d04d475d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Circuit Board" style="width: 100%; border-radius: 12px; margin-top: 16px;">
         </div>
     </div>
   </div>
@@ -280,7 +279,6 @@
             <li>Adjusted parameters for SMT process optimization.</li>
             <li>Evaluated and integrated new materials and components.</li>
         </ul>
-
         <h4>Mechanical Engineer – Ucan Technology Co., Ltd. (2022–2024)</h4>
         <ul>
             <li>Built rubber analysis machines from design to delivery.</li>
@@ -288,7 +286,6 @@
             <li>Performed mechanical, electrical, and calibration tasks.</li>
             <li>Collaborated with customers and multiple technical teams.</li>
         </ul>
-
         <h4>Operator – Yuan Tai Hing Enterprise Co., Ltd. (2018–2022)</h4>
         <ul>
             <li>Operated production machines from raw materials to final goods.</li>
@@ -310,7 +307,6 @@
             <li>Machine assembly, calibration, wiring, alignment, and testing.</li>
             <li>Temperature calibration with precision reference sensors.</li>
         </ul>
-
         <h4>SMT & Inspection</h4>
         <ul>
             <li><strong>3D AOI (Omron VT-S1080V2):</strong> Setup, programming, defect analysis, MES integration, golden sample verification.</li>
@@ -318,7 +314,6 @@
             <li><strong>IPC-A-610:</strong> Standards for PCB quality, solder joints, reliability, and dimensional/electrical performance.</li>
             <li><strong>X-Ray Inspection (Inline & Offline):</strong> Defect analysis, NDT, radiation safety, system optimization.</li>
         </ul>
-
         <h4>Software & Process Control</h4>
         <ul>
             <li>Programming with <strong>Python</strong> for automation and data analysis.</li>
@@ -380,110 +375,161 @@
 
 
 <script>
-// year
-document.getElementById('year').textContent = new Date().getFullYear();
-
-// scroll reveal + progress
-const blocks = Array.from(document.querySelectorAll('section.block'));
-const progressBar = document.getElementById('progressBar');
-const onScroll = () => {
-  const h = document.documentElement;
-  const v = (h.scrollTop)/(h.scrollHeight - h.clientHeight || 1);
-  progressBar.style.width = (v*100).toFixed(2)+'%';
-};
-onScroll();
-window.addEventListener('scroll', onScroll, {passive:true});
-
-const io = 'IntersectionObserver' in window ? new IntersectionObserver((es)=>{
-  es.forEach(e=> e.isIntersecting && e.target.classList.add('reveal'));
-},{threshold:.15}) : null;
-blocks.forEach(b=> io ? io.observe(b) : b.classList.add('reveal'));
-
-// --- MODAL CONTROL ---
-function setupModal(linkId, modalId) {
-    const link = document.getElementById(linkId);
-    const modal = document.getElementById(modalId);
-    // Also check for footer link if it exists
-    const footerLink = document.getElementById('footer' + linkId.charAt(0).toUpperCase() + linkId.slice(1));
+document.addEventListener('DOMContentLoaded', () => {
+    // --- SETUP AWAL & FUNGSI DASAR ---
     
-    if (!link || !modal) return;
+    // Set Tahun di Footer
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-    const openModal = (e) => {
-        e.preventDefault();
-        modal.classList.add('open');
+    // Progress Bar di Atas
+    const progressBar = document.getElementById('progressBar');
+    const onScroll = () => {
+      const h = document.documentElement;
+      const v = (h.scrollTop)/(h.scrollHeight - h.clientHeight || 1);
+      progressBar.style.width = (v*100).toFixed(2)+'%';
     };
-    
-    const closeModal = () => {
-        modal.classList.remove('open');
-    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 
-    link.addEventListener('click', openModal);
-    if(footerLink) footerLink.addEventListener('click', openModal);
+    // Kontrol Modal (Jendela Pop-up)
+    function setupModal(linkId, modalId) {
+        const link = document.getElementById(linkId);
+        const modal = document.getElementById(modalId);
+        const footerLink = document.getElementById('footer' + linkId.charAt(0).toUpperCase() + linkId.slice(1));
+        if (!link || !modal) return;
+        const openModal = (e) => { e.preventDefault(); modal.classList.add('open'); };
+        const closeModal = () => { modal.classList.remove('open'); };
+        link.addEventListener('click', openModal);
+        if(footerLink) footerLink.addEventListener('click', openModal);
+        modal.querySelector('.close-btn').addEventListener('click', closeModal);
+        modal.querySelector('.modal-bg').addEventListener('click', closeModal);
+    }
 
-    modal.querySelector('.close-btn').addEventListener('click', closeModal);
-    modal.querySelector('.modal-bg').addEventListener('click', closeModal);
-}
+    // Pendaftaran Event Listener untuk setiap Modal SECARA EKSPLISIT
+    setupModal('mechanicalLink', 'mechanicalModal');
+    setupModal('aboutLink', 'aboutModal');
+    setupModal('experienceLink', 'experienceModal');
+    setupModal('skillsLink', 'skillsModal');
+    setupModal('languagesLink', 'languagesModal');
+    setupModal('visionLink', 'visionModal');
+    setupModal('contactLink', 'contactModal');
 
-// Setup all modals
-setupModal('mechanicalLink', 'mechanicalModal');
-setupModal('aboutLink', 'aboutModal');
-setupModal('experienceLink', 'experienceModal');
-setupModal('skillsLink', 'skillsModal');
-setupModal('languagesLink', 'languagesModal');
-setupModal('visionLink', 'visionModal');
-setupModal('contactLink', 'contactModal');
+    // --- EFEK BINTANG INTERAKTIF ---
+    (function initStarfield(){
+      const canvas = document.getElementById('starfield');
+      const ctx = canvas.getContext('2d');
+      let dpr = Math.max(1, window.devicePixelRatio || 1);
+      let w=0,h=0, anim;
+      const stars = [];
+      const config = {
+          layers: [
+            {n:120,s:0.05,r:[.6,1],a:.7},
+            {n:80, s:0.12,r:[.9,1.6],a:.85},
+            {n:40, s:0.25,r:[1.2,2.2],a:1},
+          ],
+          mouseRadius: 100,
+          mouseRepel: 0.1
+      };
+      let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 
+      const R=(m,M)=>Math.random()*(M-m)+m;
+      const resize=()=>{
+        w = canvas.clientWidth = window.innerWidth;
+        h = canvas.clientHeight = window.innerHeight;
+        canvas.width = Math.floor(w*dpr);
+        canvas.height = Math.floor(h*dpr);
+        ctx.setTransform(dpr,0,0,dpr,0,0);
+        stars.length = 0; 
+        config.layers.forEach(l=>{ for(let i=0;i<l.n;i++) stars.push({x:Math.random()*w,y:Math.random()*h,ox:Math.random()*w,oy:Math.random()*h,r:R(l.r[0],l.r[1]),s:l.s,a:R(.6*l.a,l.a)}); });
+      };
+      const grad=()=>{ const g=ctx.createRadialGradient(w*.5,h*.2,0,w*.5,h*.2,Math.max(w,h)); g.addColorStop(0,'#0b1d3a'); g.addColorStop(.5,'#09132a'); g.addColorStop(1,'#050915'); return g; };
+      
+      const tick=()=>{
+        ctx.clearRect(0,0,w,h); ctx.fillStyle=grad(); ctx.fillRect(0,0,w,h);
+        
+        for(const s of stars){
+            let dx = mouse.x - s.x;
+            let dy = mouse.y - s.y;
+            let dist = Math.sqrt(dx * dx + dy * dy);
 
-// Cursor FX
-const dot = document.getElementById('cursorDot');
-window.addEventListener('mousemove', (e)=>{
-  dot.style.left = e.clientX+'px';
-  dot.style.top = e.clientY+'px';
+            if (dist < config.mouseRadius) {
+                let force = (config.mouseRadius - dist) / config.mouseRadius;
+                s.x -= dx / dist * force * config.mouseRepel;
+                s.y -= dy / dist * force * config.mouseRepel;
+            } else {
+                s.x += (s.ox - s.x) * 0.05;
+                s.y += (s.oy - s.y) * 0.05;
+            }
+
+            s.ox+=s.s; if(s.ox>w+s.r) s.ox=-s.r;
+            
+            ctx.globalAlpha=s.a; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle='#cfe6ff'; ctx.fill();
+        }
+        anim=requestAnimationFrame(tick);
+      };
+      
+      window.addEventListener('mousemove', e => {
+          mouse.x = e.clientX;
+          mouse.y = e.clientY;
+      });
+      resize(); window.addEventListener('resize', resize); anim=requestAnimationFrame(tick);
+    })();
+
+    // --- $1M ADVANCED ANIMATIONS SCRIPT (GSAP) ---
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 1. Kursor Aura
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorX = gsap.quickTo(cursorDot, "left", { duration: 0.5, ease: "power3" });
+    const cursorY = gsap.quickTo(cursorDot, "top", { duration: 0.5, ease: "power3" });
+    window.addEventListener('mousemove', e => {
+        cursorX(e.clientX);
+        cursorY(e.clientY);
+    });
+
+    // 2. Animasi Pembuka Hero Section
+    const mainTitle = new SplitType('#main-title', { types: 'lines' });
+    gsap.set('.anim-fade-up', { y: 30, opacity: 0 });
+    const tl = gsap.timeline({delay: 0.2});
+    tl.from(mainTitle.lines, { y: 100, opacity: 0, stagger: 0.1, duration: 0.8, ease: 'power3.out' })
+      .to('.anim-fade-up', { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, ease: 'power3.out' }, "-=0.5");
+
+    // 3. Animasi Saat Scroll
+    gsap.utils.toArray('.anim-fade-up').forEach(elem => {
+        if (!elem.closest('.hero')) {
+            gsap.fromTo(elem, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: elem, start: 'top 85%', toggleActions: 'play none none none' } });
+        }
+    });
+    gsap.utils.toArray('.anim-card').forEach((card, i) => {
+        gsap.fromTo(card, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', scrollTrigger: { trigger: card, start: 'top 90%', toggleActions: 'play none none none' }, delay: i * 0.1 });
+    });
+
+    // 4. Efek Spotlight pada Kartu
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--cursor-x', `${x}px`);
+            card.style.setProperty('--cursor-y', `${y}px`);
+        });
+    });
+
+    // 5. Efek Tombol Magnetic
+    const magneticButtons = document.querySelectorAll('.magnetic');
+    magneticButtons.forEach(btn => {
+        btn.addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - (rect.left + rect.width / 2);
+            const y = e.clientY - (rect.top + rect.height / 2);
+            gsap.to(this, { x: x * 0.3, y: y * 0.3, duration: 0.8, ease: 'elastic.out(1, 0.3)' });
+        });
+        btn.addEventListener('mouseleave', function() {
+            gsap.to(this, { x: 0, y: 0, duration: 0.5, ease: 'power3.out' });
+        });
+    });
 });
-window.addEventListener('click', (e)=>{
-  const span = document.createElement('span');
-  span.className='particle';
-  const hue = Math.floor(200 + Math.random()*80);
-  span.style.left = e.clientX+'px';
-  span.style.top = e.clientY+'px';
-  span.style.background = `hsl(${hue} 100% 70% / .9)`;
-  span.style.boxShadow = `0 0 12px hsl(${hue} 100% 70% / .8)`;
-  document.body.appendChild(span);
-  setTimeout(()=> span.remove(), 600);
-});
-
-// Starfield (canvas)
-(function initStarfield(){
-  const canvas = document.getElementById('starfield');
-  const ctx = canvas.getContext('2d');
-  let dpr = Math.max(1, window.devicePixelRatio || 1);
-  let w=0,h=0, anim;
-  const L = [
-    {n:120,s:0.05,r:[.6,1],a:.7},
-    {n:80, s:0.12,r:[.9,1.6],a:.85},
-    {n:40, s:0.25,r:[1.2,2.2],a:1},
-  ];
-  let S=[];
-  const R=(m,M)=>Math.random()*(M-m)+m;
-  const resize=()=>{
-    w = canvas.clientWidth = window.innerWidth;
-    h = canvas.clientHeight = window.innerHeight;
-    canvas.width = Math.floor(w*dpr);
-    canvas.height = Math.floor(h*dpr);
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    S=[]; L.forEach(l=>{ for(let i=0;i<l.n;i++) S.push({x:Math.random()*w,y:Math.random()*h,r:R(l.r[0],l.r[1]),s:l.s,a:R(.6*l.a,l.a)}); });
-  };
-  const grad=()=>{ const g=ctx.createRadialGradient(w*.5,h*.2,0,w*.5,h*.2,Math.max(w,h)); g.addColorStop(0,'#0b1d3a'); g.addColorStop(.5,'#09132a'); g.addColorStop(1,'#050915'); return g; };
-  const tick=()=>{
-    ctx.clearRect(0,0,w,h); ctx.fillStyle=grad(); ctx.fillRect(0,0,w,h);
-    const neb = ctx.createLinearGradient(0,0,w,h); neb.addColorStop(0,'rgba(80,120,255,.10)'); neb.addColorStop(1,'rgba(180,100,255,.06)');
-    ctx.fillStyle=neb; ctx.fillRect(0,0,w,h);
-    for(const s of S){ ctx.globalAlpha=s.a; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle='#cfe6ff'; ctx.fill();
-      ctx.globalAlpha=s.a*.6; ctx.fillRect(s.x-s.s*2,s.y,s.r*.8,.6); s.x+=s.s; if(s.x>w+2) s.x=-2; }
-    ctx.globalAlpha=1; anim=requestAnimationFrame(tick);
-  };
-  resize(); window.addEventListener('resize', resize); anim=requestAnimationFrame(tick);
-})();
 </script>
 </body>
 </html>
