@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filo - SMT Engineer Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1d3e 50%, #0d1b3a 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(100, 150, 255, 0.2);
+            padding: 1.5rem 5%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #4a90e2, #7b68ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-placeholder {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4a90e2, #7b68ee);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #4a90e2;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #4a90e2, #7b68ee);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .glass-card {
+            background: rgba(20, 30, 60, 0.25);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-radius: 30px;
+            border: 2px solid rgba(150, 180, 255, 0.5);
+            padding: 4rem 3rem;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                        0 0 60px rgba(100, 150, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(100, 150, 255, 0.1) 100%);
+            border-radius: 30px;
+            pointer-events: none;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid rgba(150, 180, 255, 0.5);
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, #4a90e2, #7b68ee);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #4a90e2 0%, #7b68ee 50%, #4a90e2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient 3s ease infinite;
+            background-size: 200% 200%;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            color: #c8d4f0;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 20px rgba(74, 144, 226, 0.3);
+        }
+
+        .bio {
+            font-size: 1.1rem;
+            color: #b8c8e8;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(74, 144, 226, 0.3);
+            border: 2px solid rgba(150, 180, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: linear-gradient(135deg, #4a90e2, #7b68ee);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.5);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, #4a90e2, #7b68ee);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            margin: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.5);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .section {
+            padding: 6rem 5%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #4a90e2, #7b68ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .skill-card {
+            background: rgba(30, 40, 80, 0.4);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            padding: 2.5rem;
+            transition: all 0.3s;
+        }
+
+        .skill-card {
+            cursor: pointer;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(100, 150, 255, 0.5);
+            box-shadow: 0 15px 40px rgba(74, 144, 226, 0.3);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-content {
+            background: rgba(20, 30, 60, 0.95);
+            backdrop-filter: blur(40px) saturate(180%);
+            border-radius: 30px;
+            border: 2px solid rgba(150, 180, 255, 0.5);
+            padding: 3rem;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            color: #fff;
+            cursor: pointer;
+            background: rgba(74, 144, 226, 0.3);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(150, 180, 255, 0.5);
+        }
+
+        .modal-close:hover {
+            background: linear-gradient(135deg, #4a90e2, #7b68ee);
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+        }
+
+        .modal-title {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #4a90e2, #7b68ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modal-section {
+            margin-bottom: 2rem;
+        }
+
+        .modal-section h3 {
+            color: #4a90e2;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-section p, .modal-section li {
+            color: #a8b8d8;
+            line-height: 1.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .modal-section li:before {
+            content: "▹ ";
+            color: #4a90e2;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .tool-item {
+            background: rgba(74, 144, 226, 0.2);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            text-align: center;
+            color: #a8b8d8;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .tool-item:hover {
+            background: rgba(74, 144, 226, 0.4);
+            border-color: rgba(100, 150, 255, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .experience-level {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 10px;
+            background: rgba(74, 144, 226, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4a90e2, #7b68ee);
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+
+        .skill-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #4a90e2;
+        }
+
+        .skill-list {
+            list-style: none;
+            color: #a8b8d8;
+        }
+
+        .skill-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(100, 150, 255, 0.1);
+        }
+
+        .skill-list li:last-child {
+            border-bottom: none;
+        }
+
+        .experience-timeline {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            background: rgba(30, 40, 80, 0.4);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .timeline-item:hover {
+            border-color: rgba(100, 150, 255, 0.5);
+            transform: translateX(10px);
+        }
+
+        .timeline-date {
+            color: #4a90e2;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-company {
+            color: #7b90c0;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-desc {
+            color: #a8b8d8;
+            line-height: 1.6;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: rgba(30, 40, 80, 0.4);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(100, 150, 255, 0.5);
+            box-shadow: 0 15px 40px rgba(74, 144, 226, 0.3);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #4a90e2, #7b68ee);
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .project-card h3 {
+            font-size: 1.8rem;
+            color: #4a90e2;
+            margin-bottom: 1rem;
+        }
+
+        .project-card p {
+            color: #a8b8d8;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background: rgba(74, 144, 226, 0.2);
+            color: #4a90e2;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(100, 150, 255, 0.3);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            padding: 0.8rem 1.5rem;
+            background: rgba(74, 144, 226, 0.3);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .project-link:hover {
+            background: linear-gradient(135deg, #4a90e2, #7b68ee);
+            transform: translateY(-2px);
+        }
+
+        .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-item {
+            background: rgba(30, 40, 80, 0.4);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover {
+            border-color: rgba(100, 150, 255, 0.5);
+            transform: translateY(-5px);
+        }
+
+        .contact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-item h3 {
+            color: #4a90e2;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item a {
+            color: #a8b8d8;
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            color: #4a90e2;
+        }
+
+        footer {
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(100, 150, 255, 0.2);
+            padding: 3rem 5%;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        footer p {
+            color: #a8b8d8;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+            
+            .skills-grid,
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 4rem 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+
+    <nav>
+        <div class="logo">
+            <div class="logo-placeholder">F</div>
+            <span>Filo</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="glass-card">
+                <div class="profile-image">👨‍💻</div>
+                <h1>Richo Listiantono</h1>
+                <p class="subtitle">SMT Engineer | Multi-Disciplinary Engineer</p>
+                <p class="bio">
+                    Versatile engineer specializing in SMT manufacturing, mechanical design, software development, 
+                    and computer engineering. Passionate about integrating hardware and software solutions to create 
+                    innovative engineering projects across multiple disciplines.
+                </p>
+                <div class="social-links">
+                    <a href="https://lico.gitbook.io/lico.-docs/" target="_blank" class="social-link" title="GitBook">📚</a>
+                    <a href="#" class="social-link" title="GitHub">💻</a>
+                    <a href="#" class="social-link" title="LinkedIn">💼</a>
+                    <a href="#" class="social-link" title="Email">📧</a>
+                </div>
+                <div>
+                    <a href="#projects" class="cta-button">View Projects</a>
+                    <a href="#contact" class="cta-button">Get in Touch</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section">
+        <h2 class="section-title">Technical Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-card" onclick="openModal('smt')">
+                <div class="skill-icon">📱</div>
+                <h3>SMT Manufacturing</h3>
+                <ul class="skill-list">
+                    <li>Pick & Place Programming</li>
+                    <li>Reflow Soldering</li>
+                    <li>AOI & X-Ray Inspection</li>
+                    <li>Process Optimization</li>
+                    <li>PCB Assembly</li>
+                </ul>
+                <p style="color: #4a90e2; margin-top: 1rem; font-size: 0.9rem;">Click to learn more →</p>
+            </div>
+            <div class="skill-card" onclick="openModal('mechanical')">
+                <div class="skill-icon">🔧</div>
+                <h3>Mechanical Design</h3>
+                <ul class="skill-list">
+                    <li>CAD Modeling</li>
+                    <li>3D Design</li>
+                    <li>Mechanism Design</li>
+                    <li>Manufacturing Process</li>
+                    <li>Product Development</li>
+                </ul>
+                <p style="color: #4a90e2; margin-top: 1rem; font-size: 0.9rem;">Click to learn more →</p>
+            </div>
+            <div class="skill-card" onclick="openModal('software')">
+                <div class="skill-icon">💻</div>
+                <h3>Software Development</h3>
+                <ul class="skill-list">
+                    <li>Python Programming</li>
+                    <li>Web Development</li>
+                    <li>Automation Scripts</li>
+                    <li>API Integration</li>
+                    <li>Database Management</li>
+                </ul>
+                <p style="color: #4a90e2; margin-top: 1rem; font-size: 0.9rem;">Click to learn more →</p>
+            </div>
+            <div class="skill-card" onclick="openModal('analysis')">
+                <div class="skill-icon">⚙️</div>
+                <h3>Machine Analysis</h3>
+                <ul class="skill-list">
+                    <li>Data Analysis</li>
+                    <li>Performance Testing</li>
+                    <li>Quality Control</li>
+                    <li>Process Monitoring</li>
+                    <li>Optimization</li>
+                </ul>
+                <p style="color: #4a90e2; margin-top: 1rem; font-size: 0.9rem;">Click to learn more →</p>
+            </div>
+            <div class="skill-card" onclick="openModal('computer')">
+                <div class="skill-icon">🖥️</div>
+                <h3>Computer Engineering</h3>
+                <ul class="skill-list">
+                    <li>Embedded Systems</li>
+                    <li>Hardware Integration</li>
+                    <li>Circuit Design</li>
+                    <li>System Architecture</li>
+                    <li>IoT Development</li>
+                </ul>
+                <p style="color: #4a90e2; margin-top: 1rem; font-size: 0.9rem;">Click to learn more →</p>
+            </div>
+            <div class="skill-card" onclick="openModal('design')">
+                <div class="skill-icon">🎨</div>
+                <h3>Design Projects</h3>
+                <ul class="skill-list">
+                    <li>Product Design</li>
+                    <li>UI/UX Concepts</li>
+                    <li>Technical Drawing</li>
+                    <li>Prototyping</li>
+                    <li>Design Documentation</li>
+                </ul>
+                <p style="color: #4a90e2; margin-top: 1rem; font-size: 0.9rem;">Click to learn more →</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skill Modals -->
+    <div id="modal-smt" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('smt')">×</span>
+            <div class="modal-header">
+                <div class="modal-icon">📱</div>
+                <h2 class="modal-title">SMT Manufacturing</h2>
+            </div>
+            
+            <div class="modal-section">
+                <h3>Overview</h3>
+                <p>Surface Mount Technology (SMT) is my core expertise. I specialize in high-speed electronics assembly, quality control, and process optimization for modern PCB manufacturing.</p>
+            </div>
+
+            <div class="modal-section">
+                <h3>Key Competencies</h3>
+                <ul>
+                    <li>Programming and operating pick-and-place machines (Juki, Yamaha, Panasonic)</li>
+                    <li>Reflow soldering profile optimization for lead-free and leaded processes</li>
+                    <li>AOI (Automated Optical Inspection) programming and defect analysis</li>
+                    <li>X-Ray inspection for BGA and hidden solder joints</li>
+                    <li>Stencil design and solder paste printing optimization</li>
+                    <li>IPC-A-610 quality standards implementation</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Tools & Equipment</h3>
+                <div class="tools-grid">
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/smt-machine" target="_blank" class="tool-item">Juki RS-1</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/smt-machine" target="_blank" class="tool-item">Yamaha YSM20</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/smt-machine" target="_blank" class="tool-item">DEK Printer</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/smt-machine" target="_blank" class="tool-item">Reflow Ovens</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/smt-machine" target="_blank" class="tool-item">AOI Systems</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/smt-machine" target="_blank" class="tool-item">X-Ray Machines</a>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <h3>Experience Level</h3>
+                <div class="experience-level">
+                    <span style="color: #a8b8d8;">Expert</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 95%;"></div>
+                    </div>
+                    <span style="color: #4a90e2;">95%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-mechanical" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('mechanical')">×</span>
+            <div class="modal-header">
+                <div class="modal-icon">🔧</div>
+                <h2 class="modal-title">Mechanical Design</h2>
+            </div>
+            
+            <div class="modal-section">
+                <h3>Overview</h3>
+                <p>Proficient in mechanical design and engineering with focus on industrial machinery, fixtures, and automated systems. Strong understanding of manufacturing processes and material selection.</p>
+            </div>
+
+            <div class="modal-section">
+                <h3>Key Competencies</h3>
+                <ul>
+                    <li>3D CAD modeling and assembly design</li>
+                    <li>Engineering drawings and GD&T</li>
+                    <li>Fixture and jig design for manufacturing</li>
+                    <li>Mechanism design and kinematic analysis</li>
+                    <li>Material selection and stress analysis</li>
+                    <li>Design for Manufacturing (DFM)</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Software & Tools</h3>
+                <div class="tools-grid">
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/mechanical-machine" target="_blank" class="tool-item">SolidWorks</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/mechanical-machine" target="_blank" class="tool-item">AutoCAD</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/mechanical-machine" target="_blank" class="tool-item">Fusion 360</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/mechanical-machine" target="_blank" class="tool-item">Inventor</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/mechanical-machine" target="_blank" class="tool-item">FEA Analysis</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/mechanical-machine" target="_blank" class="tool-item">CNC Programming</a>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <h3>Experience Level</h3>
+                <div class="experience-level">
+                    <span style="color: #a8b8d8;">Advanced</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%;"></div>
+                    </div>
+                    <span style="color: #4a90e2;">85%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-software" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('software')">×</span>
+            <div class="modal-header">
+                <div class="modal-icon">💻</div>
+                <h2 class="modal-title">Software Development</h2>
+            </div>
+            
+            <div class="modal-section">
+                <h3>Overview</h3>
+                <p>Full-stack developer with expertise in automation, data analysis, and web development. Creating custom software solutions for industrial and engineering applications.</p>
+            </div>
+
+            <div class="modal-section">
+                <h3>Key Competencies</h3>
+                <ul>
+                    <li>Python programming for automation and data analysis</li>
+                    <li>Web development (HTML, CSS, JavaScript, React)</li>
+                    <li>Database design and management (SQL, MongoDB)</li>
+                    <li>API development and integration</li>
+                    <li>Process automation and scripting</li>
+                    <li>Version control with Git/GitHub</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Technologies & Frameworks</h3>
+                <div class="tools-grid">
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/software-project" target="_blank" class="tool-item">Python</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/software-project" target="_blank" class="tool-item">JavaScript</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/software-project" target="_blank" class="tool-item">React</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/software-project" target="_blank" class="tool-item">Node.js</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/software-project" target="_blank" class="tool-item">SQL</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/software-project" target="_blank" class="tool-item">Git</a>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <h3>Experience Level</h3>
+                <div class="experience-level">
+                    <span style="color: #a8b8d8;">Advanced</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 88%;"></div>
+                    </div>
+                    <span style="color: #4a90e2;">88%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-analysis" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('analysis')">×</span>
+            <div class="modal-header">
+                <div class="modal-icon">⚙️</div>
+                <h2 class="modal-title">Machine Analysis</h2>
+            </div>
+            
+            <div class="modal-section">
+                <h3>Overview</h3>
+                <p>Expert in machine performance analysis, quality control systems, and data-driven optimization. Implementing statistical methods for process improvement.</p>
+            </div>
+
+            <div class="modal-section">
+                <h3>Key Competencies</h3>
+                <ul>
+                    <li>Statistical process control (SPC)</li>
+                    <li>Root cause analysis and problem-solving</li>
+                    <li>Performance metrics and KPI tracking</li>
+                    <li>Quality management systems (ISO 9001)</li>
+                    <li>Six Sigma methodologies</li>
+                    <li>Predictive maintenance analysis</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Tools & Methods</h3>
+                <div class="tools-grid">
+                    <div class="tool-item">Minitab</div>
+                    <div class="tool-item">Excel</div>
+                    <div class="tool-item">Python Pandas</div>
+                    <div class="tool-item">DMAIC</div>
+                    <div class="tool-item">Fishbone</div>
+                    <div class="tool-item">Pareto</div>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <h3>Experience Level</h3>
+                <div class="experience-level">
+                    <span style="color: #a8b8d8;">Advanced</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 82%;"></div>
+                    </div>
+                    <span style="color: #4a90e2;">82%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-computer" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('computer')">×</span>
+            <div class="modal-header">
+                <div class="modal-icon">🖥️</div>
+                <h2 class="modal-title">Computer Engineering</h2>
+            </div>
+            
+            <div class="modal-section">
+                <h3>Overview</h3>
+                <p>Combining hardware and software expertise to develop embedded systems, IoT solutions, and computer-based control systems for industrial applications.</p>
+            </div>
+
+            <div class="modal-section">
+                <h3>Key Competencies</h3>
+                <ul>
+                    <li>Microcontroller programming (Arduino, ESP32, STM32)</li>
+                    <li>Embedded C/C++ development</li>
+                    <li>IoT device development and cloud integration</li>
+                    <li>Circuit design and PCB layout</li>
+                    <li>Communication protocols (UART, SPI, I2C, MQTT)</li>
+                    <li>Real-time operating systems (RTOS)</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Platforms & Technologies</h3>
+                <div class="tools-grid">
+                    <div class="tool-item">Arduino</div>
+                    <div class="tool-item">Raspberry Pi</div>
+                    <div class="tool-item">ESP32</div>
+                    <div class="tool-item">STM32</div>
+                    <div class="tool-item">MQTT</div>
+                    <div class="tool-item">FreeRTOS</div>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <h3>Experience Level</h3>
+                <div class="experience-level">
+                    <span style="color: #a8b8d8;">Advanced</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%;"></div>
+                    </div>
+                    <span style="color: #4a90e2;">80%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-design" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('design')">×</span>
+            <div class="modal-header">
+                <div class="modal-icon">🎨</div>
+                <h2 class="modal-title">Design Projects</h2>
+            </div>
+            
+            <div class="modal-section">
+                <h3>Overview</h3>
+                <p>Creative approach to product design combining aesthetics with functionality. Experienced in creating technical documentation and visual presentations.</p>
+            </div>
+
+            <div class="modal-section">
+                <h3>Key Competencies</h3>
+                <ul>
+                    <li>Product design and conceptualization</li>
+                    <li>UI/UX design principles</li>
+                    <li>Technical illustration and documentation</li>
+                    <li>Rapid prototyping and 3D printing</li>
+                    <li>Design thinking methodology</li>
+                    <li>Visual communication</li>
+                </ul>
+            </div>
+
+            <div class="modal-section">
+                <h3>Design Tools</h3>
+                <div class="tools-grid">
+                    <div class="tool-item">Figma</div>
+                    <div class="tool-item">Adobe XD</div>
+                    <div class="tool-item">Illustrator</div>
+                    <div class="tool-item">Photoshop</div>
+                    <div class="tool-item">Blender</div>
+                    <div class="tool-item">3D Printing</div>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <h3>Experience Level</h3>
+                <div class="experience-level">
+                    <span style="color: #a8b8d8;">Intermediate</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%;"></div>
+                    </div>
+                    <span style="color: #4a90e2;">75%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="experience" class="section">
+        <h2 class="section-title">Work Experience</h2>
+        <div class="experience-timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">2022 - Present</div>
+                <div class="timeline-title">Senior SMT Engineer</div>
+                <div class="timeline-company">Tech Manufacturing Co.</div>
+                <p class="timeline-desc">
+                    Leading SMT production line operations, optimizing assembly processes, and implementing 
+                    quality control systems. Reduced defect rates by 35% through process improvements and 
+                    team training initiatives.
+                </p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2020 - 2022</div>
+                <div class="timeline-title">SMT Process Engineer</div>
+                <div class="timeline-company">Electronics Solutions Ltd.</div>
+                <p class="timeline-desc">
+                    Managed pick-and-place programming, developed AOI inspection parameters, and coordinated 
+                    with design teams for DFM optimization. Successfully launched 15+ new product lines.
+                </p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2018 - 2020</div>
+                <div class="timeline-title">Junior SMT Technician</div>
+                <div class="timeline-company">Circuit Board Industries</div>
+                <p class="timeline-desc">
+                    Operated SMT equipment, performed routine maintenance, and assisted in production planning. 
+                    Gained comprehensive knowledge of PCB assembly processes and quality standards.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section">
+        <h2 class="section-title">Project Portfolio</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-image">🔧</div>
+                <h3>Mechanical Machine</h3>
+                <p>Comprehensive mechanical engineering projects including design, prototyping, and manufacturing of industrial machinery components and systems.</p>
+                <div class="project-tags">
+                    <span class="tag">Mechanical Design</span>
+                    <span class="tag">CAD</span>
+                    <span class="tag">Manufacturing</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/mechanical-machine" target="_blank" class="project-link">📚 View Docs</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image">📱</div>
+                <h3>SMT Machine</h3>
+                <p>Surface Mount Technology projects covering PCB assembly, pick-and-place operations, and electronics manufacturing process optimization.</p>
+                <div class="project-tags">
+                    <span class="tag">SMT</span>
+                    <span class="tag">PCB Assembly</span>
+                    <span class="tag">Electronics</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/smt-machine" target="_blank" class="project-link">📚 View Docs</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image">📊</div>
+                <h3>Analyze Machine</h3>
+                <p>Data analysis and performance evaluation systems for industrial machinery, including monitoring, diagnostics, and optimization solutions.</p>
+                <div class="project-tags">
+                    <span class="tag">Data Analysis</span>
+                    <span class="tag">Testing</span>
+                    <span class="tag">Monitoring</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/analyze-machine" target="_blank" class="project-link">📚 View Docs</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image">💻</div>
+                <h3>Software Project</h3>
+                <p>Custom software development for automation, control systems, and industrial applications using modern programming frameworks and tools.</p>
+                <div class="project-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">Automation</span>
+                    <span class="tag">Web Dev</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/software-project" target="_blank" class="project-link">📚 View Docs</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image">🎨</div>
+                <h3>Design Project</h3>
+                <p>Creative design solutions including product design, technical illustrations, and engineering documentation for various industrial applications.</p>
+                <div class="project-tags">
+                    <span class="tag">Product Design</span>
+                    <span class="tag">CAD</span>
+                    <span class="tag">Prototyping</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/design-project" target="_blank" class="project-link">📚 View Docs</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image">🖥️</div>
+                <h3>Computer Engineering</h3>
+                <p>Hardware-software integration projects including embedded systems, IoT devices, and computer-based control systems for industrial use.</p>
+                <div class="project-tags">
+                    <span class="tag">Embedded</span>
+                    <span class="tag">IoT</span>
+                    <span class="tag">Hardware</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/computer-engineering" target="_blank" class="project-link">📚 View Docs</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-content">
+            <div class="glass-card">
+                <p style="font-size: 1.2rem; color: #b8c8e8; margin-bottom: 2rem; position: relative; z-index: 1;">
+                    I'm always interested in discussing new projects, opportunities, or collaborations in SMT engineering and electronics manufacturing.
+                </p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <h3>Email</h3>
+                        <a href="mailto:richo@example.com">richo@example.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">💼</div>
+                        <h3>LinkedIn</h3>
+                        <a href="#" target="_blank">linkedin.com/in/richo-listiantono</a>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📚</div>
+                        <h3>GitBook Documentation</h3>
+                        <a href="https://lico.gitbook.io/lico.-docs/" target="_blank">lico.gitbook.io/lico.-docs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Richo Listiantono - Filo. All rights reserved.</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">Multi-Disciplinary Engineer | Building the Future 🚀</p>
+    </footer>
+
+    <script>
+        // Generate stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 3;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect for stars
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            starsContainer.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+
+        // Modal functions
+        function openModal(modalId) {
+            const modal = document.getElementById('modal-' + modalId);
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById('modal-' + modalId);
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const activeModal = document.querySelector('.modal.active');
+                if (activeModal) {
+                    activeModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
