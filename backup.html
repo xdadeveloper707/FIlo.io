@@ -45,6 +45,225 @@
             50% { transform: translateY(-20px); }
         }
 
+        .scroll-indicator {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            font-size: 2rem;
+            color: #4a90e2;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .scroll-indicator:hover {
+            opacity: 1;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .progress-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4a90e2, #7b68ee);
+            z-index: 9999;
+            transition: width 0.3s;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #4a90e2, #7b68ee);
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(74, 144, 226, 0.5);
+            transition: all 0.3s;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.7);
+        }
+
+        .back-to-top.visible {
+            display: flex;
+        }
+
+        .typing-effect {
+            overflow: hidden;
+            border-right: 3px solid #4a90e2;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #4a90e2; }
+        }
+
+        .stats-counter {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 3rem auto;
+        }
+
+        .stat-item {
+            background: rgba(30, 40, 80, 0.4);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(100, 150, 255, 0.5);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #4a90e2, #7b68ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #a8b8d8;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .cursor-dot {
+            width: 20px;
+            height: 20px;
+            background: rgba(74, 144, 226, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        .cursor-dot.hover {
+            transform: scale(2);
+            background: rgba(123, 104, 238, 0.7);
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(74, 144, 226, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particle-float 3s ease-out forwards;
+        }
+
+        @keyframes particle-float {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px);
+            }
+        }
+
+        .achievement-badge {
+            position: fixed;
+            top: 100px;
+            right: -300px;
+            background: rgba(20, 30, 60, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            border: 2px solid rgba(100, 150, 255, 0.5);
+            padding: 1.5rem;
+            z-index: 2000;
+            transition: right 0.5s;
+            max-width: 250px;
+        }
+
+        .achievement-badge.show {
+            right: 2rem;
+        }
+
+        .badge-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .badge-text {
+            color: #4a90e2;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .parallax-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float-shape 20s infinite ease-in-out;
+        }
+
+        @keyframes float-shape {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(100px, -100px) rotate(90deg); }
+            50% { transform: translate(200px, 0) rotate(180deg); }
+            75% { transform: translate(100px, 100px) rotate(270deg); }
+        }
+
+        .glow-text {
+            text-shadow: 0 0 20px rgba(74, 144, 226, 0.5),
+                         0 0 40px rgba(74, 144, 226, 0.3),
+                         0 0 60px rgba(74, 144, 226, 0.2);
+        }
+
         nav {
             position: fixed;
             top: 0;
@@ -723,7 +942,18 @@
     </style>
 </head>
 <body>
+    <div class="progress-indicator" id="progressBar"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
     <div class="stars" id="stars"></div>
+    <div class="floating-shapes" id="floatingShapes"></div>
+    
+    <div class="back-to-top" id="backToTop">↑</div>
+    <div class="scroll-indicator" id="scrollIndicator">↓</div>
+    
+    <div class="achievement-badge" id="achievementBadge">
+        <div class="badge-icon">🏆</div>
+        <div class="badge-text">Welcome to Filo!</div>
+    </div>
 
     <nav>
         <div class="logo">
@@ -743,8 +973,8 @@
         <div class="hero-content">
             <div class="glass-card">
                 <div class="profile-image">👨‍💻</div>
-                <h1>Richo Listiantono</h1>
-                <p class="subtitle">SMT Engineer | Multi-Disciplinary Engineer</p>
+                <h1 class="glow-text">Richo Listiantono</h1>
+                <p class="subtitle typing-effect">SMT Engineer | Multi-Disciplinary Engineer</p>
                 <p class="bio">
                     Versatile engineer specializing in SMT manufacturing, mechanical design, software development, 
                     and computer engineering. Passionate about integrating hardware and software solutions to create 
@@ -1021,12 +1251,12 @@
             <div class="modal-section">
                 <h3>Tools & Methods</h3>
                 <div class="tools-grid">
-                    <div class="tool-item">Minitab</div>
-                    <div class="tool-item">Excel</div>
-                    <div class="tool-item">Python Pandas</div>
-                    <div class="tool-item">DMAIC</div>
-                    <div class="tool-item">Fishbone</div>
-                    <div class="tool-item">Pareto</div>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/analyze-machine" target="_blank" class="tool-item">Minitab</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/analyze-machine" target="_blank" class="tool-item">Excel</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/analyze-machine" target="_blank" class="tool-item">Python Pandas</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/analyze-machine" target="_blank" class="tool-item">DMAIC</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/analyze-machine" target="_blank" class="tool-item">Fishbone</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/analyze-machine" target="_blank" class="tool-item">Pareto</a>
                 </div>
             </div>
 
@@ -1071,12 +1301,12 @@
             <div class="modal-section">
                 <h3>Platforms & Technologies</h3>
                 <div class="tools-grid">
-                    <div class="tool-item">Arduino</div>
-                    <div class="tool-item">Raspberry Pi</div>
-                    <div class="tool-item">ESP32</div>
-                    <div class="tool-item">STM32</div>
-                    <div class="tool-item">MQTT</div>
-                    <div class="tool-item">FreeRTOS</div>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/computer-engineering" target="_blank" class="tool-item">Arduino</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/computer-engineering" target="_blank" class="tool-item">Raspberry Pi</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/computer-engineering" target="_blank" class="tool-item">ESP32</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/computer-engineering" target="_blank" class="tool-item">STM32</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/computer-engineering" target="_blank" class="tool-item">MQTT</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/computer-engineering" target="_blank" class="tool-item">FreeRTOS</a>
                 </div>
             </div>
 
@@ -1121,12 +1351,12 @@
             <div class="modal-section">
                 <h3>Design Tools</h3>
                 <div class="tools-grid">
-                    <div class="tool-item">Figma</div>
-                    <div class="tool-item">Adobe XD</div>
-                    <div class="tool-item">Illustrator</div>
-                    <div class="tool-item">Photoshop</div>
-                    <div class="tool-item">Blender</div>
-                    <div class="tool-item">3D Printing</div>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/design-project" target="_blank" class="tool-item">Figma</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/design-project" target="_blank" class="tool-item">Adobe XD</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/design-project" target="_blank" class="tool-item">Illustrator</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/design-project" target="_blank" class="tool-item">Photoshop</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/design-project" target="_blank" class="tool-item">Blender</a>
+                    <a href="https://lico.gitbook.io/lico.-docs/work-project/design-project" target="_blank" class="tool-item">3D Printing</a>
                 </div>
             </div>
 
@@ -1145,6 +1375,26 @@
 
     <section id="experience" class="section">
         <h2 class="section-title">Work Experience</h2>
+        
+        <div class="stats-counter">
+            <div class="stat-item">
+                <div class="stat-number" data-target="5">0</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="50">0</div>
+                <div class="stat-label">Projects Completed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="20">0</div>
+                <div class="stat-label">Happy Clients</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="15">0</div>
+                <div class="stat-label">Certifications</div>
+            </div>
+        </div>
+        
         <div class="experience-timeline">
             <div class="timeline-item">
                 <div class="timeline-date">2022 - Present</div>
@@ -1310,6 +1560,131 @@
             starsContainer.appendChild(star);
         }
 
+        // Generate floating shapes
+        const shapesContainer = document.getElementById('floatingShapes');
+        const shapes = ['◆', '●', '▲', '■'];
+        for (let i = 0; i < 10; i++) {
+            const shape = document.createElement('div');
+            shape.className = 'shape';
+            shape.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+            shape.style.fontSize = (Math.random() * 60 + 40) + 'px';
+            shape.style.left = Math.random() * 100 + '%';
+            shape.style.top = Math.random() * 100 + '%';
+            shape.style.animationDelay = Math.random() * 5 + 's';
+            shape.style.animationDuration = (Math.random() * 15 + 15) + 's';
+            shape.style.color = '#4a90e2';
+            shapesContainer.appendChild(shape);
+        }
+
+        // Custom cursor
+        const cursorDot = document.getElementById('cursorDot');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            cursorDot.style.left = cursorX + 'px';
+            cursorDot.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Hover effect for cursor
+        const hoverElements = document.querySelectorAll('a, button, .skill-card, .project-card, .cta-button');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursorDot.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursorDot.classList.remove('hover'));
+        });
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const height = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrolled / height) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Parallax effect
+            starsContainer.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+
+        // Back to top button
+        const backToTop = document.getElementById('backToTop');
+        const scrollIndicator = document.getElementById('scrollIndicator');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+                scrollIndicator.style.display = 'none';
+            } else {
+                backToTop.classList.remove('visible');
+                scrollIndicator.style.display = 'block';
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        scrollIndicator.addEventListener('click', () => {
+            document.querySelector('#skills').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Counter animation
+        const counters = document.querySelectorAll('.stat-number');
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = parseInt(entry.target.getAttribute('data-target'));
+                    let count = 0;
+                    const increment = target / 50;
+                    const updateCount = () => {
+                        if (count < target) {
+                            count += increment;
+                            entry.target.textContent = Math.ceil(count);
+                            setTimeout(updateCount, 30);
+                        } else {
+                            entry.target.textContent = target + '+';
+                        }
+                    };
+                    updateCount();
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        counters.forEach(counter => counterObserver.observe(counter));
+
+        // Achievement badge
+        setTimeout(() => {
+            const badge = document.getElementById('achievementBadge');
+            badge.classList.add('show');
+            setTimeout(() => {
+                badge.classList.remove('show');
+            }, 3000);
+        }, 1000);
+
+        // Particle effect on click
+        document.addEventListener('click', (e) => {
+            for (let i = 0; i < 5; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = e.clientX + (Math.random() - 0.5) * 50 + 'px';
+                particle.style.top = e.clientY + (Math.random() - 0.5) * 50 + 'px';
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 3000);
+            }
+        });
+
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1322,12 +1697,6 @@
                     });
                 }
             });
-        });
-
-        // Parallax effect for stars
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            starsContainer.style.transform = `translateY(${scrolled * 0.5}px)`;
         });
 
         // Modal functions
@@ -1361,6 +1730,25 @@
                 }
             }
         });
+
+        // Fade in animation on scroll
+        const fadeElements = document.querySelectorAll('.feature-card, .project-card, .timeline-item');
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(30px)';
+                    setTimeout(() => {
+                        entry.target.style.transition = 'all 0.6s ease';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+                    fadeObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(el => fadeObserver.observe(el));
     </script>
 </body>
 </html>
