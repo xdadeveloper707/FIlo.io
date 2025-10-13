@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Galaxy Machines — $1M Edition</title>
+  <title>Galaxy Machines – Industrial Automation</title>
   <style>
     :root {
       --bg1:#0b1d3a; --bg2:#09132a; --bg3:#050915;
@@ -11,97 +11,215 @@
       --border: rgba(255, 255, 255, .1);
       --shadow-sm: 0 4px 12px rgba(0,0,0,.25);
       --shadow-md: 0 8px 32px rgba(0,0,0,.3);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,.4);
       --text: #e6eefc;
       --muted: rgba(230,238,252,.75);
       --gradA: rgba(99,102,241,.25);
       --gradB: rgba(236,72,153,.18);
       --gradC: rgba(14,165,233,.18);
       --accent:#7cc7ff;
+      --accent-pink:#f39be0;
     }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,Arial,Helvetica,sans-serif;color:var(--text);background:#000;overflow-x:hidden}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,system-ui,Arial,Helvetica,sans-serif;color:var(--text);background:#000;overflow-x:hidden;line-height:1.6}
     a{color:inherit;text-decoration:none}
     .wrap{max-width:1200px;margin:0 auto;padding:0 20px}
-    header.nav{position:sticky;top:0;z-index:40;backdrop-filter:blur(12px);background:rgba(11, 29, 58, 0.7);border-bottom:1px solid var(--border); box-shadow: var(--shadow-md);}
-    header .bar{height:64px;display:flex;align-items:center;justify-content:space-between}
-    .brand{display:flex;align-items:center;gap:8px;font-weight:600}
-    .badge{margin-left:8px;padding:2px 8px;border-radius:12px;background:var(--glass);border:1px solid var(--border);font-size:12px}
-    nav.links{display:flex;gap:24px;font-size:14px;color:var(--muted)}
-    nav.links a{transition: color 0.3s ease; display: inline-block;}
-    nav.links a:hover{color:#fff}
+    
+    header.nav{position:sticky;top:0;z-index:40;backdrop-filter:blur(12px);background:rgba(11, 29, 58, 0.85);border-bottom:1px solid var(--border); box-shadow: var(--shadow-md);}
+    header .bar{height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:8px;font-weight:600;font-size:18px}
+    .badge{margin-left:8px;padding:2px 8px;border-radius:12px;background:var(--glass);border:1px solid var(--border);font-size:11px}
+    
+    nav.links{display:flex;gap:20px;font-size:14px;color:var(--muted)}
+    nav.links a{transition: all 0.3s ease; display: inline-block; padding: 8px 12px; border-radius: 8px;}
+    nav.links a:hover{color:#fff; background: var(--glass);}
+    
+    .mobile-menu-btn{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border-radius:8px;background:var(--glass);border:1px solid var(--border);transition:all 0.3s ease}
+    .mobile-menu-btn span{width:24px;height:2px;background:var(--text);transition:all 0.3s ease;border-radius:2px}
+    .mobile-menu-btn.active span:nth-child(1){transform:rotate(45deg) translate(6px, 6px)}
+    .mobile-menu-btn.active span:nth-child(2){opacity:0}
+    .mobile-menu-btn.active span:nth-child(3){transform:rotate(-45deg) translate(6px, -6px)}
+    
+    .mobile-nav{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(11, 29, 58, 0.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:20px;transform:translateY(-100%);opacity:0;transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1);z-index:39}
+    .mobile-nav.active{transform:translateY(0);opacity:1}
+    .mobile-nav a{display:block;padding:12px 16px;color:var(--muted);transition:all 0.3s ease;border-radius:8px;margin-bottom:8px}
+    .mobile-nav a:hover{color:#fff;background:var(--glass);transform:translateX(8px)}
+    
+    .header-actions{display:flex;gap:8px}
+    .btn-link{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:12px;background:var(--glass);border:1px solid var(--border); transition: all 0.3s ease;font-size:13px}
+    .btn-link:hover {transform: scale(1.05);border-color:var(--accent)}
+    
     .grid{display:grid;gap:24px}
-    .grid-2{grid-template-columns:280px 1fr}
-    .sidebar{position:sticky;top:80px;padding:24px 12px;border-right:1px solid var(--border);background:var(--glass);backdrop-filter:blur(12px);overflow:auto; border-radius: 0 16px 16px 0;}
-    .side-title{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(230,238,252,.6);margin:0 0 8px;display:flex;align-items:center;gap:6px}
-    .side-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
-    .side-item a{display:flex;align-items:center;gap:8px;color:var(--muted);transition:transform 0.3s ease, color 0.3s ease; cursor: pointer;}
-    .side-item a:hover{color:#fff;transform:translateX(4px)}
-    .hero{padding:96px 0}
-    .title{font-weight:700;font-size:48px;line-height:1.1; overflow: hidden;}
-    .title .line { display: block; }
-    .title .grad{background:linear-gradient(90deg,#7cc7ff,#d6dbff,#f8a8e8);-webkit-background-clip:text;background-clip:text;color:transparent}
-    .lead{margin-top:16px;max-width:720px;color:var(--muted);font-size:18px}
-    .btns{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
-    .btn{padding:12px 16px;border-radius:14px;border:1px solid var(--border);background:var(--glass);color:#e8eeff;cursor:pointer; transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;}
-    .btn:hover{transform: scale(1.05);}
-    .btn.primary{background:rgba(99,102,241,.6);border-color:rgba(255,255,255,.3)}
-    .btn.primary:hover{background:rgba(99,102,241,.8);}
-    .pills{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
-    .pill{padding:6px 10px;border-radius:999px;background:var(--glass);border:1px solid var(--border);font-size:12px}
-    section.block{padding:64px 0;}
-    .cards{display:grid;gap:24px;grid-template-columns:repeat(3,minmax(0,1fr))}
-    .card{position:relative;border-radius:16px;overflow:hidden;background:var(--glass);border:1px solid var(--border);padding:24px;backdrop-filter:blur(10px); box-shadow: var(--shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease;}
-    .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(255,255,255,0.1), transparent 20%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none;}
-    .card:hover::before { opacity: 1; }
-    .card:hover { transform: translateY(-8px) scale(1.02); box-shadow: var(--shadow-md);}
-    .badge2{display:inline-block;padding:2px 8px;border-radius:10px;background:var(--glass);border:1px solid var(--border);font-size:12px;color:var(--muted)}
-    footer{border-top:1px solid var(--border);background:rgba(11, 29, 58, 0.7);backdrop-filter:blur(12px);padding:32px 0;color:var(--muted)}
-    /* FX layers */
+    .grid-2{grid-template-columns:260px 1fr}
+    
+    .sidebar{position:sticky;top:80px;padding:20px 14px;border-right:1px solid var(--border);background:var(--glass);backdrop-filter:blur(12px);overflow:auto; border-radius: 0 16px 16px 0; max-height: calc(100vh - 100px);box-shadow:var(--shadow-sm)}
+    .side-title{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(230,238,252,.6);margin:0 0 12px;display:flex;align-items:center;gap:6px;font-weight:600}
+    .side-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+    .side-item a{display:flex;align-items:center;gap:10px;color:var(--muted);transition:all 0.3s ease; cursor: pointer;padding:10px 12px;border-radius:8px;font-size:14px}
+    .side-item a:hover{color:#fff;background:var(--glass);transform:translateX(4px)}
+    .side-item.active a{color:var(--accent); font-weight: 600;background:rgba(124, 199, 255, 0.1)}
+    
+    .hero{padding:100px 0 70px;position:relative}
+    .hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);border-radius:50%;filter:blur(80px);pointer-events:none;animation:pulseGlow 8s ease-in-out infinite}
+    
+    @keyframes pulseGlow{0%,100%{opacity:0.5;transform:translateX(-50%) scale(1)}50%{opacity:0.8;transform:translateX(-50%) scale(1.1)}}
+    
+    .title{font-weight:700;font-size:48px;line-height:1.1; overflow: hidden;margin-bottom:0}
+    .title .grad{background:linear-gradient(135deg,#7cc7ff,#8ea0ff,#f39be0,#7cc7ff);background-size:300% 300%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradientShift 6s ease infinite}
+    
+    @keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+    
+    .lead{margin-top:20px;max-width:720px;color:var(--muted);font-size:18px;line-height:1.6}
+    .btns{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap}
+    .btn{padding:13px 24px;border-radius:14px;border:1px solid var(--border);background:var(--glass);color:#e8eeff;cursor:pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);font-weight:500;font-size:15px;position:relative;overflow:hidden}
+    .btn::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;border-radius:50%;background:rgba(255,255,255,0.2);transform:translate(-50%, -50%);transition:width 0.6s, height 0.6s}
+    .btn:hover::before{width:300px;height:300px}
+    .btn:hover{transform: translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.3)}
+    .btn.primary{background:linear-gradient(135deg, rgba(99,102,241,.7), rgba(236,72,153,.6));border-color:rgba(255,255,255,.3);box-shadow:0 4px 16px rgba(99,102,241,0.3)}
+    .btn.primary:hover{box-shadow:0 8px 32px rgba(99,102,241,0.5)}
+    
+    .pills{margin-top:28px;display:flex;gap:10px;flex-wrap:wrap}
+    .pill{padding:7px 14px;border-radius:999px;background:var(--glass);border:1px solid var(--border);font-size:13px; transition: all 0.3s ease;position:relative;overflow:hidden}
+    .pill:hover{background:rgba(99,102,241,.2); transform: translateY(-2px);border-color:var(--accent)}
+    
+    section.block{padding:70px 0;position:relative}
+    .section-header{margin-bottom:40px;text-align:center}
+    .section-header h2{font-size:38px;font-weight:700;margin:0 0 14px;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .section-header .lead{margin:0 auto;max-width:600px}
+    
+    .cards{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+    .card{position:relative;border-radius:18px;overflow:hidden;background:var(--glass);border:1px solid var(--border);padding:28px;backdrop-filter:blur(10px); box-shadow: var(--shadow-sm); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);cursor:pointer}
+    .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, rgba(124,199,255,0.15), transparent 40%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none}
+    .card:hover::before { opacity: 1 }
+    .card:hover { transform: translateY(-10px) scale(1.02); box-shadow: var(--shadow-lg);border-color:rgba(124,199,255,0.3)}
+    .card h3{margin:0 0 14px;font-size:20px;display:flex;align-items:center;gap:8px}
+    .card p{color:var(--muted);line-height:1.7;margin:0 0 14px;font-size:15px}
+    .card-icon{font-size:28px;margin-bottom:14px;display:inline-block}
+    
+    .badge2{display:inline-block;padding:4px 10px;border-radius:10px;background:var(--glass);border:1px solid var(--border);font-size:11px;color:var(--muted);margin-top:8px;margin-right:4px}
+    
+    .image-card{position:relative;height:260px;border-radius:18px;overflow:hidden;background:var(--glass);border:1px solid var(--border);cursor:pointer;transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1)}
+    .image-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)}
+    .image-card:hover img{transform:scale(1.1)}
+    .image-card-overlay{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top, rgba(0,0,0,0.9), transparent);transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)}
+    .image-card:hover .image-card-overlay{transform:translateY(0)}
+    .image-card h4{margin:0 0 6px;font-size:17px;color:#fff}
+    .image-card p{margin:0;color:rgba(255,255,255,0.8);font-size:13px}
+    
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;margin:40px 0}
+    .stat-item{text-align:center;padding:28px 20px;background:var(--glass);border:1px solid var(--border);border-radius:16px;backdrop-filter:blur(10px);transition:all 0.3s ease}
+    .stat-item:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);border-color:var(--accent)}
+    .stat-number{font-size:42px;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent-pink));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px;display:block}
+    .stat-label{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:0.1em}
+    
+    footer{border-top:1px solid var(--border);background:rgba(11, 29, 58, 0.7);backdrop-filter:blur(12px);padding:40px 0;color:var(--muted);margin-top:70px}
+    .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px;margin-bottom:28px}
+    .footer-section h4{color:var(--text);margin:0 0 14px;font-size:15px}
+    .footer-section p,.footer-section a{color:var(--muted);font-size:13px;line-height:1.8}
+    .footer-section a{display:block;transition:all 0.3s ease;padding:3px 0}
+    .footer-section a:hover{color:var(--accent);padding-left:6px}
+    .footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:28px;border-top:1px solid var(--border);flex-wrap:wrap;gap:14px;font-size:13px}
+    
     canvas#starfield{position:fixed;inset:0;z-index:-10;width:100vw;height:100vh}
-    .overlayA,.overlayB,.overlayC,.noise{position:fixed;inset:0;pointer-events:none;z-index:-10}
-    .overlayA{background:radial-gradient(ellipse at center,rgba(99,102,241,.15),transparent 60%);mix-blend:screen}
+    .overlayA,.overlayB,.overlayC{position:fixed;inset:0;pointer-events:none;z-index:-10}
+    .overlayA{background:radial-gradient(ellipse at center,rgba(99,102,241,.15),transparent 60%);mix-blend-mode:screen}
     .overlayB{background:linear-gradient(transparent,rgba(0,0,0,.4))}
     .overlayC{opacity:.6;background:radial-gradient(600px 300px at 20% 10%, var(--gradA), transparent),radial-gradient(500px 250px at 80% 20%, var(--gradB), transparent),radial-gradient(700px 350px at 50% 80%, var(--gradC), transparent)}
-    .noise{mix-blend-mode:soft-light;background-size:cover}
-    .float-orbs > div{position:absolute;border-radius:9999px;filter:blur(40px);animation:floatOrb 12s ease-in-out infinite}
-    .float-orbs .o1{top:80px;left:40px;width:280px;height:280px;background:linear-gradient(135deg,rgba(125,180,255,.15),rgba(80,110,255,.1))}
-    .float-orbs .o2{right:80px;bottom:40px;width:320px;height:320px;background:linear-gradient(135deg,rgba(255,120,210,.15),rgba(120,200,255,.1));animation-duration:14s;animation-delay:-2s}
-    .float-orbs .o3{left:50%;top:50%;transform:translate(-50%,-50%);width:380px;height:380px;background:linear-gradient(135deg,rgba(120,160,255,.1),rgba(240,140,255,.1));animation-duration:18s;animation-delay:-4s}
-    @keyframes floatOrb{0%{transform:translate(0,0)}50%{transform:translate(10px,-20px)}100%{transform:translate(0,0)}}
-    /* Modal */
-    .modal-wrap{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:60}
-    .modal-wrap.open{display:flex}
-    .modal-bg{position:absolute;inset:0;background:rgba(0,0,0,.6)}
-    .modal{position:relative;z-index:1;width:min(800px,92vw);max-height: 80vh; overflow-y: auto; border-radius:16px;border:1px solid var(--border);background:var(--glass);backdrop-filter:blur(20px);padding:20px; box-shadow: var(--shadow-md);}
-    .modal h3{margin:0 0 16px; font-size: 24px;}
-    .modal h4{margin: 24px 0 8px; font-size: 18px; color: var(--text);}
-    .modal p { line-height: 1.6; color: var(--muted); margin: 0 0 1em; }
-    .modal p:last-child { margin-bottom: 0; }
-    .modal ul { list-style-position: inside; padding-left: 0; margin: 0; color: var(--muted); }
-    .modal ol { list-style-position: inside; padding-left: 0; margin: 0; color: var(--muted); }
-    .modal li { margin-bottom: 8px; line-height: 1.6; }
-    .close-btn{position:absolute;right:14px;top:14px;background:rgba(255,255,255,.1);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:6px 8px;cursor:pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;}
-    .close-btn:hover { transform: scale(1.1) rotate(90deg); box-shadow: 0 0 15px var(--accent);}
-    .scrollbar::-webkit-scrollbar{height:8px}
-    .scrollbar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:8px}
-    /* Top progress bar */
+    
+    .float-orbs > div{position:absolute;border-radius:9999px;filter:blur(60px);animation:floatOrb 12s ease-in-out infinite;will-change:transform}
+    .float-orbs .o1{top:80px;left:40px;width:350px;height:350px;background:linear-gradient(135deg,rgba(125,180,255,.2),rgba(80,110,255,.15))}
+    .float-orbs .o2{right:80px;bottom:40px;width:400px;height:400px;background:linear-gradient(135deg,rgba(255,120,210,.2),rgba(120,200,255,.15));animation-duration:14s;animation-delay:-2s}
+    .float-orbs .o3{left:50%;top:50%;transform:translate(-50%,-50%);width:450px;height:450px;background:linear-gradient(135deg,rgba(120,160,255,.15),rgba(240,140,255,.15));animation-duration:18s;animation-delay:-4s}
+    
+    @keyframes floatOrb{0%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-30px) scale(1.1)}100%{transform:translate(0,0) scale(1)}}
+    
     .progress{position:fixed;top:0;left:0;right:0;height:3px;background:transparent;z-index:70}
-    .progress > div{height:100%;background:linear-gradient(90deg,#7cc7ff,#8ea0ff,#f39be0);width:0%}
-    /* Cursor FX */
-    .cursor-dot { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease; mix-blend-mode: difference; }
-    /* Utilities */
-    .mt-16{margin-top:64px}
-    .mb-10{margin-bottom:40px}
-    .flex{display:flex} .gap-8{gap:32px} .gap-4{gap:16px} .gap-2{gap:8px}
-    .items-center{align-items:center} .justify-between{justify-content:space-between}
-    .btn-link{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;background:var(--glass);border:1px solid var(--border); transition: transform 0.3s ease;}
-    .btn-link:hover {transform: scale(1.05);}
-    .input{border-radius:12px;border:1px solid var(--border);background:var(--glass);color:var(--text);padding:10px 12px;outline:none; transition: box-shadow 0.3s ease;}
-    .input:focus {box-shadow: 0 0 0 2px var(--accent);}
+    .progress > div{height:100%;background:linear-gradient(90deg,#7cc7ff,#8ea0ff,#f39be0);width:0%; transition: width 0.1s ease}
+    
+    .tab-content-area {display: none;margin-top: 28px;border-radius: 18px;background:var(--glass);border: 1px solid var(--border);padding: 28px;backdrop-filter: blur(10px);box-shadow: var(--shadow-md);animation: slideDown 0.5s cubic-bezier(0.4, 0, 0.2, 1)}
+    .tab-content-area.active {display: block}
+    @keyframes slideDown {from {opacity: 0;transform: translateY(-30px)}to {opacity: 1;transform: translateY(0)}}
+    .tab-content-area h3 {margin: 0 0 20px;font-size: 26px;color: var(--text)}
+    .tab-content-area h4 {margin: 24px 0 14px;font-size: 19px;color: var(--accent);font-weight:600}
+    .tab-content-area p {line-height: 1.8;color: var(--muted);margin-bottom: 14px;font-size:15px}
+    .tab-content-area ul, .tab-content-area ol {color: var(--muted);line-height: 1.8;padding-left: 20px;font-size:15px}
+    .tab-content-area li {margin-bottom: 10px}
+    .tab-content-area strong{color:var(--text)}
+    .tab-content-area img{width:100%;border-radius:12px;margin-top:20px;border:1px solid var(--border)}
+    
+    .mt-16{margin-top:60px}
+    
+    .modal-wrap{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:60;padding:20px}
+    .modal-wrap.open{display:flex !important}
+    .modal-bg{position:absolute;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px)}
+    .modal{position:relative;z-index:1;width:min(800px,100%);max-height:85vh;overflow-y:auto;border-radius:18px;border:1px solid var(--border);background:linear-gradient(135deg, rgba(11, 29, 58, 0.95), rgba(9, 19, 42, 0.95));backdrop-filter:blur(20px);padding:34px;box-shadow:var(--shadow-lg);animation:modalSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1)}
+    .modal::-webkit-scrollbar{width:8px}
+    .modal::-webkit-scrollbar-track{background:var(--glass)}
+    .modal::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
+    
+    @keyframes modalSlideIn{from{opacity:0;transform:scale(0.9) translateY(30px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    
+    .close-btn{position:absolute;top:18px;right:18px;width:36px;height:36px;border-radius:50%;background:var(--glass);border:1px solid var(--border);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;font-size:18px}
+    .close-btn:hover{background:rgba(255,255,255,0.1);transform:rotate(90deg);border-color:var(--accent)}
+    
+    .modal h3{margin:0 0 20px; font-size: 28px;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .modal h4{margin: 24px 0 14px; font-size: 19px; color: var(--accent);font-weight:600}
+    .modal p { line-height: 1.8; color: var(--muted); margin: 0 0 1em;font-size:15px }
+    .modal ul { list-style-position: inside; padding-left: 0; margin: 0 0 1em; color: var(--muted);font-size:15px }
+    .modal li { margin-bottom: 10px; line-height: 1.8 }
+    .modal strong{color:var(--text)}
+    .modal img{border:1px solid var(--border);box-shadow:var(--shadow-md);border-radius:12px;width:100%;margin-top:16px}
+    
+    @media(max-width:1024px){
+      .grid-2{grid-template-columns:1fr}
+      .sidebar{position:relative;top:0;border-right:none;border-bottom:1px solid var(--border);border-radius:16px;max-height:none;margin-bottom:28px}
+      .cards{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+      .title{font-size:40px}
+      .section-header h2{font-size:34px}
+    }
+    
+    @media(max-width:768px){
+      .wrap{padding:0 16px}
+      nav.links{display:none}
+      .mobile-menu-btn{display:flex}
+      .mobile-nav{display:block}
+      .header-actions{gap:6px}
+      .btn-link{padding:8px 12px;font-size:12px}
+      
+      .hero{padding:70px 0 50px}
+      .title{font-size:34px}
+      .lead{font-size:16px}
+      .btns{flex-direction:column}
+      .btn{width:100%;justify-content:center}
+      
+      .cards{grid-template-columns:1fr;gap:18px}
+      .card{padding:22px}
+      
+      .stats{grid-template-columns:repeat(2,1fr);gap:16px}
+      .stat-number{font-size:34px}
+      
+      section.block{padding:50px 0}
+      .section-header h2{font-size:26px}
+      
+      .footer-content{grid-template-columns:1fr}
+      .footer-bottom{flex-direction:column;text-align:center}
+      
+      .modal{padding:22px;max-height:90vh}
+      .modal h3{font-size:22px}
+      .tab-content-area{padding:22px}
+      
+      .image-card{height:220px}
+    }
+    
+    @media(max-width:480px){
+      .brand{font-size:16px}
+      .title{font-size:28px}
+      .hero{padding:50px 0 40px}
+      .stats{grid-template-columns:1fr}
+      .pills{gap:8px}
+      .pill{font-size:12px;padding:6px 12px}
+    }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://unpkg.com/split-type"></script>
 </head>
 <body>
   <div class="progress"><div id="progressBar"></div></div>
@@ -110,53 +228,63 @@
   <div class="overlayA"></div>
   <div class="overlayB"></div>
   <div class="overlayC"></div>
-  <div class="noise" style="background-image:url('data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='900'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.03'/></svg>')"></div>
-  <div class="cursor-dot" id="cursorDot"></div>
 
   <header class="nav">
     <div class="wrap bar">
       <div class="brand">🚀 Galaxy Machines <span class="badge">v1.0</span></div>
       <nav class="links">
-        <a href="#features" class="magnetic">Features</a>
-        <a href="#projects" class="magnetic">Projects</a>
-        <a href="#capabilities" class="magnetic">Capabilities</a>
+        <a href="#features">Features</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#workproject">Projects</a>
+        <a href="#stats">Stats</a>
       </nav>
-      <div class="flex gap-2">
-        <a class="btn-link" href="https://lico.gitbook.io/lico.-docs/" target="_blank">📘 GitBook</a>
-        <a class="btn-link" href="https://github.com/xdadeveloper707/FIlo.io" target="_blank">🐙 GitHub</a>
+      <div class="header-actions">
+        <a class="btn-link" href="https://lico.gitbook.io/lico.-docs/" target="_blank">📘 Docs</a>
+        <a class="btn-link" href="https://github.com/xdadeveloper707/FIlo.io" target="_blank">🔧 GitHub</a>
+      </div>
+      <div class="mobile-menu-btn" id="mobileMenuBtn">
+        <span></span><span></span><span></span>
       </div>
     </div>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="#features">Features</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#workproject">Projects</a>
+      <a href="#stats">Statistics</a>
+      <a href="https://lico.gitbook.io/lico.-docs/" target="_blank">📘 GitBook</a>
+      <a href="https://github.com/xdadeveloper707/FIlo.io" target="_blank">🔧 GitHub</a>
+    </nav>
   </header>
 
   <div class="wrap grid grid-2 mt-16">
     <aside class="sidebar">
-      <p class="side-title">Work Project</p>
+      <p class="side-title">⚙️ Work Projects</p>
       <ul class="side-list">
-        <li class="side-item"><a id="mechanicalLink">🔧 Mechanical Machine</a></li>
-        <li class="side-item"><a href="#software">💻 Software Project</a></li>
-        <li class="side-item"><a href="#design">🖥️ Design Project</a></li>
-        <li class="side-item"><a href="#computer">🧠 Computer Engineering</a></li>
+        <li class="side-item"><a data-tab="mechanical">🔧 Mechanical</a></li>
+        <li class="side-item"><a data-tab="software">💻 Software</a></li>
+        <li class="side-item"><a data-tab="design">🖥️ Design</a></li>
+        <li class="side-item"><a data-tab="computer">🧠 Computer Eng</a></li>
       </ul>
-      <p class="side-title" style="margin-top:18px">Getting Started</p>
+      <p class="side-title" style="margin-top:20px">📚 About</p>
       <ul class="side-list">
-        <li class="side-item"><a id="aboutLink">About Me</a></li>
-        <li class="side-item"><a id="experienceLink">Work Experience</a></li>
-        <li class="side-item"><a id="skillsLink">Skills & Expertise</a></li>
-        <li class="side-item"><a id="languagesLink">Languages</a></li>
-        <li class="side-item"><a id="visionLink">Vision & Mission</a></li>
-        <li class="side-item"><a id="contactLink">Contact</a></li>
+        <li class="side-item"><a id="aboutLink">👤 About Me</a></li>
+        <li class="side-item"><a id="experienceLink">💼 Experience</a></li>
+        <li class="side-item"><a id="skillsLink">🛠️ Skills</a></li>
+        <li class="side-item"><a id="languagesLink">🌐 Languages</a></li>
+        <li class="side-item"><a id="visionLink">🎯 Vision</a></li>
+        <li class="side-item"><a id="contactLink">📧 Contact</a></li>
       </ul>
     </aside>
 
     <main>
       <section class="hero">
-        <h1 class="title" id="main-title">Industrial <span class="grad">Automation</span>, Galaxy‑Grade Design.</h1>
-        <p class="lead anim-fade-up">Showcase your SMT, AOI, SPI, and inline X‑ray projects in a glassy, dark‑blue universe. Built for speed, precision, and wow‑factor.</p>
-        <div class="btns anim-fade-up">
-          <button class="btn primary magnetic">Launch Demo</button>
-          <button class="btn magnetic">Explore Projects</button>
+        <h1 class="title">Industrial <span class="grad">Automation</span>, Wellcome to <span class="grad">My Profile.</span></h1>
+        <p class="lead">Showcase your SMT, AOI, SPI, and inline X‑ray projects in a glassy, dark‑blue universe. Built for speed, precision, and wow‑factor.</p>
+        <div class="btns">
+          <button class="btn primary" onclick="document.getElementById('workproject').scrollIntoView({behavior:'smooth'})">Explore Projects</button>
+          <button class="btn" onclick="document.getElementById('contactLink').click()">Get in Touch</button>
         </div>
-        <div class="pills anim-fade-up">
+        <div class="pills">
           <span class="pill">3D AOI • VT‑S1080V2</span>
           <span class="pill">TRI 2D AOI • 3D SPI</span>
           <span class="pill">Inline X‑ray • Seamark</span>
@@ -164,103 +292,215 @@
         </div>
       </section>
 
-      <section id="features" class="block wrap">
-        <div class="mb-10 anim-fade-up"><h2>Core Features</h2><p class="lead">Designed to present complex manufacturing data with clarity and style.</p></div>
+      <section id="stats" class="block">
+        <div class="section-header">
+          <h2>By The Track</h2>
+          <p class="lead">Proven track record of excellence in manufacturing automation</p>
+        </div>
+        <div class="stats">
+          <div class="stat-item">
+            <span class="stat-number">7+</span>
+            <span class="stat-label">Years Taiwan</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">4+</span>
+            <span class="stat-label">Years WorksExperiment</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Quality Focus</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">24/7</span>
+            <span class="stat-label">System Uptime</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="block">
+        <div class="section-header">
+          <h2>Core Features</h2>
+          <p class="lead">Designed to present complex manufacturing data with clarity and style</p>
+        </div>
+        
+        <div id="featuresTabContent"></div>
+        
         <div class="cards">
-          <article class="card shimmer anim-card">
-            <h3>⚡ Real‑time Dashboards</h3>
+          <article class="card" data-feature="realtime">
+            <div class="card-icon">⚡</div>
+            <h3>Real‑time Dashboards</h3>
             <p>Live KPIs, pass‑rate, void‑rate trends with smooth graphs and exports.</p>
+            <div><span class="badge2">Live Data</span><span class="badge2">Analytics</span></div>
           </article>
-          <article class="card shimmer anim-card">
-            <h3>🛡️ Traceability</h3>
+          <article class="card" data-feature="traceability">
+            <div class="card-icon">🛡️</div>
+            <h3>Traceability</h3>
             <p>WO, lot, PCB, and LED index linked to images, AOI results, and X‑ray.</p>
+            <div><span class="badge2">MES Integration</span><span class="badge2">Full Tracking</span></div>
           </article>
-          <article class="card shimmer anim-card">
-            <h3>🚀 Fast & Responsive</h3>
+          <article class="card" data-feature="responsive">
+            <div class="card-icon">🚀</div>
+            <h3>Fast & Responsive</h3>
             <p>Optimized frontend + API for snappy navigation even on the shop floor.</p>
+            <div><span class="badge2">Performance</span><span class="badge2">Multi-Device</span></div>
           </article>
         </div>
       </section>
 
-      <section id="projects" class="block wrap">
-        <div class="mb-10 anim-fade-up"><h2>Showcase Projects</h2><p class="lead">Hand‑picked case studies from your production line.</p></div>
+      <section id="capabilities" class="block">
+        <div class="section-header">
+          <h2>Capabilities</h2>
+          <p class="lead">Advanced manufacturing solutions with cutting-edge technology</p>
+        </div>
+        
+        <div id="capabilitiesTabContent"></div>
+        
         <div class="cards">
-          <article class="card shimmer anim-card">
-            <h3>🧠 T1UL Lower • 160 LED / PCB</h3>
-            <p>3D AOI program & inline X‑ray correlation on flexible PCB.</p>
-            <div class="flex gap-2"><span class="badge2">AOI 3D</span><span class="badge2">Void Analysis</span></div>
-            <p style="margin-top:8px;font-size:14px;color:var(--muted)">Pass 98.4%</p>
+          <article class="card" data-capability="aoi">
+            <div class="card-icon">👁️</div>
+            <h3>AOI Systems</h3>
+            <p>3D and 2D Automated Optical Inspection with AI-powered defect detection.</p>
+            <div><span class="badge2">Omron VT-S1080V2</span><span class="badge2">TRI 2D/3D</span></div>
           </article>
-          <article class="card shimmer anim-card">
-            <h3>🔍 T1UL Upper • 9 LED / PCB</h3>
-            <p>Inline X‑ray (Seamark) with SPI pre-check; LED index mapping.</p>
-            <div class="flex gap-2"><span class="badge2">Inline X‑ray</span><span class="badge2">SPI</span></div>
-            <p style="margin-top:8px;font-size:14px;color:var(--muted)">Void ≤ 8%</p>
+          <article class="card" data-capability="xray">
+            <div class="card-icon">🔬</div>
+            <h3>X-Ray Inspection</h3>
+            <p>Inline and offline X-ray systems for solder joint analysis and void detection.</p>
+            <div><span class="badge2">Seamark</span><span class="badge2">NDT</span></div>
           </article>
-          <article class="card shimmer anim-card">
-            <h3>📦 Barcode Flow • Datalogic</h3>
-            <p>Matrix 210 integration, controlled trigger, UTF‑8 clean parsing.</p>
-            <div class="flex gap-2"><span class="badge2">RS‑232</span><span class="badge2">UTF‑8</span></div>
-            <p style="margin-top:8px;font-size:14px;color:var(--muted)">Latency &lt; 120ms</p>
+          <article class="card" data-capability="spi">
+            <div class="card-icon">📏</div>
+            <h3>SPI Technology</h3>
+            <p>3D Solder Paste Inspection for precise volume and height measurements.</p>
+            <div><span class="badge2">3D SPI</span><span class="badge2">Pre-Reflow</span></div>
           </article>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="section-header">
+          <h2>Project Gallery</h2>
+          <p class="lead">Visual showcase of manufacturing excellence</p>
+        </div>
+        
+        <div class="cards">
+          <div class="image-card">
+            <img src="https://images.unsplash.com/photo-1581092918484-8313e1f7f00f?w=800&q=80" alt="SMT Line">
+            <div class="image-card-overlay">
+              <h4>SMT Production Line</h4>
+              <p>High-speed surface mount technology</p>
+            </div>
+          </div>
+          <div class="image-card">
+            <img src="https://images.unsplash.com/photo-1581092162384-8987c1d64718?w=800&q=80" alt="3D AOI">
+            <div class="image-card-overlay">
+              <h4>3D AOI Inspection</h4>
+              <p>Advanced optical inspection with AI</p>
+            </div>
+          </div>
+          <div class="image-card">
+            <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&q=80" alt="X-Ray">
+            <div class="image-card-overlay">
+              <h4>X-Ray Analysis</h4>
+              <p>Non-destructive testing</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="workproject" class="block">
+        <div class="section-header">
+          <h2>Work Projects</h2>
+          <p class="lead">Comprehensive portfolio of engineering projects</p>
+        </div>
+        
+        <div id="mechanicalTab" class="tab-content-area">
+          <h3>🔧 Mechanical Machine</h3>
+          <h4>From Atoms to Automation</h4>
+          <p>This is more than just equipment; it's a journey into modern manufacturing where mechanical precision meets software intelligence.</p>
+          <h4>Scope of Expertise</h4>
+          <p><strong>Electronics Manufacturing (SMT Line):</strong> Deep proficiency in Surface Mount Technology production line, from SPI to high-precision component placement and AOI/X-Ray inspection.</p>
+          <p><strong>Precision Machining (CNC):</strong> Understanding of CNC machines that transform digital designs into physical objects with micron-level accuracy.</p>
+          <p><strong>Material Analysis:</strong> Experience with rubber and material analysis machines ensuring quality raw materials.</p>
+          <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1200&q=80" alt="Manufacturing">
+        </div>
+
+        <div id="softwareTab" class="tab-content-area">
+          <h3>💻 Software Project</h3>
+          <h4>Digital Solutions for Manufacturing</h4>
+          <p>Software development focused on automation, data analysis, and system integration.</p>
+          <h4>Key Projects</h4>
+          <p><strong>MES Integration:</strong> Systems connecting inspection equipment with databases for real-time traceability.</p>
+          <p><strong>Python Automation:</strong> Custom scripts for data collection and reporting from AOI, SPI, and X-Ray systems.</p>
+          <p><strong>Barcode Integration:</strong> Datalogic Matrix 210 with RS-232 communication for production tracking.</p>
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" alt="Software">
+        </div>
+
+        <div id="designTab" class="tab-content-area">
+          <h3>🖥️ Design Project</h3>
+          <h4>Engineering Design & CAD</h4>
+          <p>Comprehensive design projects using advanced CAD tools and engineering principles.</p>
+          <h4>Capabilities</h4>
+          <p><strong>SolidWorks 3D:</strong> Advanced modeling, technical drawings, and complex assemblies.</p>
+          <p><strong>Fixture Design:</strong> Custom fixtures and jigs for production lines with precise alignment.</p>
+          <img src="https://images.unsplash.com/photo-1581092918484-8313e1f7f00f?w=1200&q=80" alt="Design">
+        </div>
+
+        <div id="computerTab" class="tab-content-area">
+          <h3>🧠 Computer Engineering</h3>
+          <h4>Embedded Systems & Networks</h4>
+          <p>Computer engineering projects focusing on industrial automation and communication protocols.</p>
+          <h4>Expertise</h4>
+          <p><strong>Industrial Protocols:</strong> RS-232, RS-485, Modbus, Ethernet/IP for machine communication.</p>
+          <p><strong>Embedded Systems:</strong> PLCs, industrial PCs, and controllers for automation.</p>
+          <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&q=80" alt="Computer">
         </div>
       </section>
     </main>
   </div>
 
-
   <footer>
-    <div class="wrap flex items-center justify-between">
-      <div>© <span id="year"></span> Galaxy Machines. All rights reserved.</div>
-      <div class="flex gap-4">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a id="footerContactLink">Contact</a>
+    <div class="wrap">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>🚀 Galaxy Machines</h4>
+          <p>Leading the future of industrial automation with precision engineering.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <a href="#features">Features</a>
+          <a href="#capabilities">Capabilities</a>
+          <a href="#workproject">Projects</a>
+        </div>
+        <div class="footer-section">
+          <h4>Resources</h4>
+          <a href="https://lico.gitbook.io/lico.-docs/" target="_blank">Documentation</a>
+          <a href="https://github.com/xdadeveloper707/FIlo.io" target="_blank">GitHub</a>
+        </div>
+        <div class="footer-section">
+          <h4>Connect</h4>
+          <p>📧 info@galaxymachines.com<br>📍 Taiwan<br>🌐 EN | ID | ZH</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© <span id="year"></span> Galaxy Machines. All rights reserved.</div>
+        <div style="display:flex;gap:16px">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
       </div>
     </div>
   </footer>
 
-  <div id="mechanicalModal" class="modal-wrap">
-    <div class="modal-bg"></div>
-    <div class="modal">
-      <button class="close-btn">✖</button>
-      <h3>🔧 Mechanical Machine</h3>
-      <div class="modal-content">
-        <h4>From Atoms to Automation</h4>
-        <p>Welcome to the "Mechanical Machine" section. This is more than just a catalog of equipment; it's a journey into the heart of modern manufacturing, where mechanical precision meets software intelligence to turn ideas into reality. Here, I detail my understanding and experience with a wide range of machinery—from those requiring a skilled human touch to those operating within a fully automated system.</p>
-        <p>My vision for machinery is to see each device not as a standalone tool, but as a critical node in a larger production ecosystem. The story of any product begins with understanding its core materials, continues with it being shaped with absolute precision, assembled at high speed, and finally validated by tireless digital eyes.</p>
-        <h4>Scope of Expertise</h4>
-        <p>My knowledge spans several key pillars of industrial machinery, which complement each other to create efficient and reliable workflows:</p>
-        <p><strong>Electronics Manufacturing (SMT Line):</strong> A deep proficiency in the Surface Mount Technology production line. This involves not just one machine, but the orchestration of an entire process: from Solder Paste Inspection (SPI), to high-precision component placement, and final inspection using AOI (Automated Optical Inspection) and X-Ray to ensure flawless solder joints.</p>
-        <p><strong>Precision Machining (CNC Machines):</strong> A fundamental understanding of CNC (Computer Numerical Control) machines, which form the backbone of mechanical component creation. This is where digital designs are transformed into physical objects with micron-level accuracy, whether for prototypes, jigs, or final parts.</p>
-        <p><strong>Material Analysis (Rubber Analyze Machines):</strong> Before a product can be formed, the quality of its raw materials must be guaranteed. My experience with rubber and other material analysis machines provides insight into how the fundamental properties of a substance will impact the final product's performance and durability.</p>
-        <p><strong>Automation & Systems Integration (Automation & Universal Equipment):</strong> Expertise in designing and understanding the automation systems that act as the "glue" for the entire process. This includes robotics, conveyor systems, sensors, and custom universal equipment designed to integrate different machines into a seamless and efficient workflow.</p>
-        <h4>Core Concept: The Integrated Manufacturing Workflow</h4>
-        <p>In the following sub-sections, you will find more than just technical specifications. You will see how these machines "talk" to one another.</p>
-        <ol>
-            <li><strong>The Foundation:</strong> The process begins with Analysis Machines to ensure our base materials are of the highest quality.</li>
-            <li><strong>The Form:</strong> It continues with CNC Machines, which shape the framework or components with high precision.</li>
-            <li><strong>The Assembly:</strong> The workflow then moves to the SMT Line, where electronic components are assembled onto circuit boards at incredible speeds.</li>
-            <li><strong>The Validation:</strong> At every critical stage, Inspection Machines (AOI & X-Ray) act as the gatekeepers of quality.</li>
-            <li><strong>The Integration:</strong> All of these stages are connected by Automation Systems, ensuring a continuous and uninterrupted production flow.</li>
-        </ol>
-        <p>This section is a living document of my experience in the world of machinery. It stands as a testament to the fact that behind every advanced product lies a symphony of machines working in perfect harmony.</p>
-      </div>
-    </div>
-  </div>
-
   <div id="aboutModal" class="modal-wrap">
     <div class="modal-bg"></div>
     <div class="modal">
-        <button class="close-btn">✖</button>
-        <h3>About Me</h3>
-        <div class="modal-content">
-            <p>My name is Richo Listiantono (李克), an Indonesian engineer who has lived and worked in Taiwan for more than 7 years.</p>
-            <p>I am passionate about technology and engineering, with strong academic training in Computer-Aided Industrial Design and Computer & Network Engineering.</p>
-            <p>I began my career journey in Taiwan from internship, part-time, and full-time roles across different industries. Through these experiences, I developed a versatile background that combines mechanical engineering, electronics manufacturing, and software integration.</p>
-            <p>My professional mission is to create innovative, reliable, and cost-effective solutions that enhance quality, efficiency, and sustainability in manufacturing.</p>
-            <img src="https://images.unsplash.com/photo-1550751827-4138d04d475d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="Circuit Board" style="width: 100%; border-radius: 12px; margin-top: 16px;">
-        </div>
+      <button class="close-btn">✖</button>
+      <h3>About Me</h3>
+      <p>My name is <strong>Richo Listiantono (李克)</strong>, an Indonesian engineer who has lived and worked in Taiwan for more than 7 years.</p>
+      <p>I am passionate about technology and engineering, with strong training in Computer-Aided Industrial Design and Computer & Network Engineering.</p>
+      <p>My mission is to create innovative, reliable solutions that enhance quality, efficiency, and sustainability in manufacturing.</p>
+      <img src="https://images.unsplash.com/photo-1550751827-4138d04d475d?w=1200&q=80" alt="Circuit">
     </div>
   </div>
 
@@ -269,29 +509,18 @@
     <div class="modal">
       <button class="close-btn">✖</button>
       <h3>💼 Work Experience</h3>
-      <div class="modal-content">
-        <h4>SMT Engineer – Lianjia Optoelectronics Co., Ltd. (2024–Present)</h4>
-        <ul>
-            <li>Designed and continuously improved SMT assembly processes.</li>
-            <li>Troubleshooted and resolved process abnormalities.</li>
-            <li>Enhanced yield and reduced rejection rates by optimizing pass rates.</li>
-            <li>Implemented and verified special manufacturing procedures.</li>
-            <li>Adjusted parameters for SMT process optimization.</li>
-            <li>Evaluated and integrated new materials and components.</li>
-        </ul>
-        <h4>Mechanical Engineer – Ucan Technology Co., Ltd. (2022–2024)</h4>
-        <ul>
-            <li>Built rubber analysis machines from design to delivery.</li>
-            <li>Assembled and calibrated rheometers, viscometers, and universal testers.</li>
-            <li>Performed mechanical, electrical, and calibration tasks.</li>
-            <li>Collaborated with customers and multiple technical teams.</li>
-        </ul>
-        <h4>Operator – Yuan Tai Hing Enterprise Co., Ltd. (2018–2022)</h4>
-        <ul>
-            <li>Operated production machines from raw materials to final goods.</li>
-            <li>Managed packaging, placement, and shipment of finished products.</li>
-        </ul>
-      </div>
+      <h4>SMT Engineer – Lianjia Optoelectronics (2024–Present)</h4>
+      <ul>
+        <li>Designed and improved SMT assembly processes</li>
+        <li>Enhanced yield and reduced rejection rates</li>
+        <li>Implemented special manufacturing procedures</li>
+      </ul>
+      <h4>Mechanical Engineer – Ucan Technology (2022–2024)</h4>
+      <ul>
+        <li>Built rubber analysis machines from design to delivery</li>
+        <li>Assembled and calibrated testing equipment</li>
+      </ul>
+      <img src="https://images.unsplash.com/photo-1581092918484-8313e1f7f00f?w=1200&q=80" alt="Work">
     </div>
   </div>
 
@@ -300,42 +529,36 @@
     <div class="modal">
       <button class="close-btn">✖</button>
       <h3>🛠️ Skills & Expertise</h3>
-      <div class="modal-content">
-        <h4>Engineering & Design</h4>
-        <ul>
-            <li><strong>SolidWorks (4+ years):</strong> Advanced 3D modeling, technical drawings, and product/system design.</li>
-            <li>Machine assembly, calibration, wiring, alignment, and testing.</li>
-            <li>Temperature calibration with precision reference sensors.</li>
-        </ul>
-        <h4>SMT & Inspection</h4>
-        <ul>
-            <li><strong>3D AOI (Omron VT-S1080V2):</strong> Setup, programming, defect analysis, MES integration, golden sample verification.</li>
-            <li><strong>TRI 2D AOI / SPI 3D:</strong> Debugging false calls, adjusting programs, improving efficiency.</li>
-            <li><strong>IPC-A-610:</strong> Standards for PCB quality, solder joints, reliability, and dimensional/electrical performance.</li>
-            <li><strong>X-Ray Inspection (Inline & Offline):</strong> Defect analysis, NDT, radiation safety, system optimization.</li>
-        </ul>
-        <h4>Software & Process Control</h4>
-        <ul>
-            <li>Programming with <strong>Python</strong> for automation and data analysis.</li>
-            <li>MES integration for inspection data traceability.</li>
-            <li>Process optimization and troubleshooting.</li>
-        </ul>
-      </div>
+      <h4>Engineering & Design</h4>
+      <ul>
+        <li><strong>SolidWorks (4+ years):</strong> Advanced 3D modeling and technical drawings</li>
+        <li>Machine assembly, calibration, and testing</li>
+      </ul>
+      <h4>SMT & Inspection</h4>
+      <ul>
+        <li><strong>3D AOI (Omron VT-S1080V2):</strong> Setup, programming, MES integration</li>
+        <li><strong>X-Ray Inspection:</strong> Defect analysis, NDT, safety protocols</li>
+      </ul>
+      <h4>Software</h4>
+      <ul>
+        <li>Python for automation and data analysis</li>
+        <li>MES integration for traceability</li>
+      </ul>
+      <img src="https://images.unsplash.com/photo-1581092162384-8987c1d64718?w=1200&q=80" alt="Skills">
     </div>
   </div>
-  
+
   <div id="languagesModal" class="modal-wrap">
     <div class="modal-bg"></div>
     <div class="modal">
       <button class="close-btn">✖</button>
       <h3>🌐 Languages</h3>
-      <div class="modal-content">
-        <ul>
-          <li><strong>English:</strong> Proficient in reading, mastery in writing, moderate in speaking/listening.</li>
-          <li><strong>Indonesian:</strong> Native fluency.</li>
-          <li><strong>Chinese:</strong> Basic listening, speaking, and reading.</li>
-        </ul>
-      </div>
+      <ul>
+        <li><strong>English:</strong> Proficient reading, mastery writing, moderate speaking</li>
+        <li><strong>Indonesian:</strong> Native fluency</li>
+        <li><strong>Chinese:</strong> Basic listening, speaking, reading</li>
+      </ul>
+      <img src="https://images.unsplash.com/photo-1526885024501-43c1c2e69d3b?w=1200&q=80" alt="Languages">
     </div>
   </div>
 
@@ -343,192 +566,198 @@
     <div class="modal-bg"></div>
     <div class="modal">
       <button class="close-btn">✖</button>
-      <h3>Vision & Mission</h3>
-      <div class="modal-content">
-        <p>Content for Vision & Mission goes here.</p>
-      </div>
+      <h3>🎯 Vision & Mission</h3>
+      <h4>Vision</h4>
+      <p>To become a leading expert in manufacturing automation, bridging mechanical precision with intelligent software solutions.</p>
+      <h4>Mission</h4>
+      <ul>
+        <li><strong>Innovation:</strong> Develop cutting-edge solutions</li>
+        <li><strong>Quality:</strong> Maintain highest standards</li>
+        <li><strong>Sustainability:</strong> Optimize resource usage</li>
+      </ul>
+      <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=80" alt="Vision">
     </div>
   </div>
 
   <div id="contactModal" class="modal-wrap">
     <div class="modal-bg"></div>
     <div class="modal">
-        <button class="close-btn">✖</button>
-        <h3>Let’s build your galaxy</h3>
-        <div class="modal-content">
-            <p class="lead" style="margin-top: -8px; margin-bottom: 16px;">Tell us about your machine project and we’ll craft a stellar site.</p>
-            <form class="grid" style="grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
-                <input placeholder="Your name" class="input"/>
-                <input placeholder="Email" class="input"/>
-                <input placeholder="Company / Team" class="input"/>
-                <textarea placeholder="Tell us about your machines, AOI/SPI models, and goals…" style="grid-column:1/-1;height:120px" class="input"></textarea>
-                <div class="flex items-center justify-between" style="grid-column:1/-1">
-                    <div style="font-size:14px;color:var(--muted)">✉️ We reply in 24 hours</div>
-                    <div class="flex gap-2">
-                        <button class="btn primary" type="button">Send Message</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+      <button class="close-btn">✖</button>
+      <h3>Let's build your galaxy</h3>
+      <p class="lead">Tell us about your machine project and we'll craft a stellar site.</p>
+      <form style="display:grid;gap:14px">
+        <input placeholder="Your name" style="border-radius:12px;border:1px solid var(--border);background:var(--glass);color:var(--text);padding:12px 16px;outline:none"/>
+        <input placeholder="Email" style="border-radius:12px;border:1px solid var(--border);background:var(--glass);color:var(--text);padding:12px 16px;outline:none"/>
+        <textarea placeholder="Tell us about your project..." style="border-radius:12px;border:1px solid var(--border);background:var(--glass);color:var(--text);padding:12px 16px;outline:none;height:120px"></textarea>
+        <button class="btn primary" type="button" onclick="alert('Message sent!')">Send Message</button>
+      </form>
     </div>
   </div>
 
-
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // --- SETUP AWAL & FUNGSI DASAR ---
-    
-    // Set Tahun di Footer
-    document.getElementById('year').textContent = new Date().getFullYear();
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Progress Bar di Atas
-    const progressBar = document.getElementById('progressBar');
-    const onScroll = () => {
-      const h = document.documentElement;
-      const v = (h.scrollTop)/(h.scrollHeight - h.clientHeight || 1);
-      progressBar.style.width = (v*100).toFixed(2)+'%';
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileNav = document.getElementById('mobileNav');
+  
+  mobileMenuBtn.addEventListener('click', () => {
+    mobileMenuBtn.classList.toggle('active');
+    mobileNav.classList.toggle('active');
+  });
+  
+  document.querySelectorAll('.mobile-nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenuBtn.classList.remove('active');
+      mobileNav.classList.remove('active');
+    });
+  });
 
-    // Kontrol Modal (Jendela Pop-up)
-    function setupModal(linkId, modalId) {
-        const link = document.getElementById(linkId);
-        const modal = document.getElementById(modalId);
-        const footerLink = document.getElementById('footer' + linkId.charAt(0).toUpperCase() + linkId.slice(1));
-        if (!link || !modal) return;
-        const openModal = (e) => { e.preventDefault(); modal.classList.add('open'); };
-        const closeModal = () => { modal.classList.remove('open'); };
-        link.addEventListener('click', openModal);
-        if(footerLink) footerLink.addEventListener('click', openModal);
-        modal.querySelector('.close-btn').addEventListener('click', closeModal);
-        modal.querySelector('.modal-bg').addEventListener('click', closeModal);
-    }
+  const progressBar = document.getElementById('progressBar');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const v = (h.scrollTop)/(h.scrollHeight - h.clientHeight || 1);
+    progressBar.style.width = (v*100).toFixed(2)+'%';
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
-    // Pendaftaran Event Listener untuk setiap Modal SECARA EKSPLISIT
-    setupModal('mechanicalLink', 'mechanicalModal');
-    setupModal('aboutLink', 'aboutModal');
-    setupModal('experienceLink', 'experienceModal');
-    setupModal('skillsLink', 'skillsModal');
-    setupModal('languagesLink', 'languagesModal');
-    setupModal('visionLink', 'visionModal');
-    setupModal('contactLink', 'contactModal');
+  function setupModal(linkId, modalId) {
+    const link = document.getElementById(linkId);
+    const modal = document.getElementById(modalId);
+    if (!link || !modal) return;
+    const openModal = (e) => { e.preventDefault(); modal.classList.add('open'); document.body.style.overflow = 'hidden'; };
+    const closeModal = () => { modal.classList.remove('open'); document.body.style.overflow = ''; };
+    link.addEventListener('click', openModal);
+    modal.querySelector('.close-btn').addEventListener('click', closeModal);
+    modal.querySelector('.modal-bg').addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+    });
+  }
 
-    // --- EFEK BINTANG INTERAKTIF ---
-    (function initStarfield(){
-      const canvas = document.getElementById('starfield');
-      const ctx = canvas.getContext('2d');
-      let dpr = Math.max(1, window.devicePixelRatio || 1);
-      let w=0,h=0, anim;
-      const stars = [];
-      const config = {
-          layers: [
-            {n:120,s:0.05,r:[.6,1],a:.7},
-            {n:80, s:0.12,r:[.9,1.6],a:.85},
-            {n:40, s:0.25,r:[1.2,2.2],a:1},
-          ],
-          mouseRadius: 100,
-          mouseRepel: 0.1
-      };
-      let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+  setupModal('aboutLink', 'aboutModal');
+  setupModal('experienceLink', 'experienceModal');
+  setupModal('skillsLink', 'skillsModal');
+  setupModal('languagesLink', 'languagesModal');
+  setupModal('visionLink', 'visionModal');
+  setupModal('contactLink', 'contactModal');
 
-      const R=(m,M)=>Math.random()*(M-m)+m;
-      const resize=()=>{
-        w = canvas.clientWidth = window.innerWidth;
-        h = canvas.clientHeight = window.innerHeight;
-        canvas.width = Math.floor(w*dpr);
-        canvas.height = Math.floor(h*dpr);
-        ctx.setTransform(dpr,0,0,dpr,0,0);
-        stars.length = 0; 
-        config.layers.forEach(l=>{ for(let i=0;i<l.n;i++) stars.push({x:Math.random()*w,y:Math.random()*h,ox:Math.random()*w,oy:Math.random()*h,r:R(l.r[0],l.r[1]),s:l.s,a:R(.6*l.a,l.a)}); });
-      };
-      const grad=()=>{ const g=ctx.createRadialGradient(w*.5,h*.2,0,w*.5,h*.2,Math.max(w,h)); g.addColorStop(0,'#0b1d3a'); g.addColorStop(.5,'#09132a'); g.addColorStop(1,'#050915'); return g; };
-      
-      const tick=()=>{
-        ctx.clearRect(0,0,w,h); ctx.fillStyle=grad(); ctx.fillRect(0,0,w,h);
-        
-        for(const s of stars){
-            let dx = mouse.x - s.x;
-            let dy = mouse.y - s.y;
-            let dist = Math.sqrt(dx * dx + dy * dy);
+  const tabLinks = document.querySelectorAll('[data-tab]');
+  const tabContents = {
+    'mechanical': document.getElementById('mechanicalTab'),
+    'software': document.getElementById('softwareTab'),
+    'design': document.getElementById('designTab'),
+    'computer': document.getElementById('computerTab')
+  };
 
-            if (dist < config.mouseRadius) {
-                let force = (config.mouseRadius - dist) / config.mouseRadius;
-                s.x -= dx / dist * force * config.mouseRepel;
-                s.y -= dy / dist * force * config.mouseRepel;
-            } else {
-                s.x += (s.ox - s.x) * 0.05;
-                s.y += (s.oy - s.y) * 0.05;
-            }
-
-            s.ox+=s.s; if(s.ox>w+s.r) s.ox=-s.r;
-            
-            ctx.globalAlpha=s.a; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle='#cfe6ff'; ctx.fill();
-        }
-        anim=requestAnimationFrame(tick);
-      };
-      
-      window.addEventListener('mousemove', e => {
-          mouse.x = e.clientX;
-          mouse.y = e.clientY;
+  tabLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const tabName = link.getAttribute('data-tab');
+      document.querySelectorAll('.side-item').forEach(item => item.classList.remove('active'));
+      link.parentElement.classList.add('active');
+      Object.values(tabContents).forEach(content => {
+        if(content) content.classList.remove('active');
       });
-      resize(); window.addEventListener('resize', resize); anim=requestAnimationFrame(tick);
-    })();
-
-    // --- $1M ADVANCED ANIMATIONS SCRIPT (GSAP) ---
-    gsap.registerPlugin(ScrollTrigger);
-
-    // 1. Kursor Aura
-    const cursorDot = document.getElementById('cursorDot');
-    const cursorX = gsap.quickTo(cursorDot, "left", { duration: 0.5, ease: "power3" });
-    const cursorY = gsap.quickTo(cursorDot, "top", { duration: 0.5, ease: "power3" });
-    window.addEventListener('mousemove', e => {
-        cursorX(e.clientX);
-        cursorY(e.clientY);
+      if(tabContents[tabName]) {
+        tabContents[tabName].classList.add('active');
+        setTimeout(() => tabContents[tabName].scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+      }
     });
+  });
 
-    // 2. Animasi Pembuka Hero Section
-    const mainTitle = new SplitType('#main-title', { types: 'lines' });
-    gsap.set('.anim-fade-up', { y: 30, opacity: 0 });
-    const tl = gsap.timeline({delay: 0.2});
-    tl.from(mainTitle.lines, { y: 100, opacity: 0, stagger: 0.1, duration: 0.8, ease: 'power3.out' })
-      .to('.anim-fade-up', { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, ease: 'power3.out' }, "-=0.5");
+  const featureCards = document.querySelectorAll('[data-feature]');
+  const featuresTabArea = document.getElementById('featuresTabContent');
+  
+  const featureContents = {
+    'realtime': '<div class="tab-content-area active"><h3>⚡ Real-time Dashboards</h3><p>Live monitoring and analytics for manufacturing processes with instant visibility into KPIs, pass rates, and void rates.</p><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" alt="Dashboard"></div>',
+    'traceability': '<div class="tab-content-area active"><h3>🛡️ Traceability</h3><p>Complete product lifecycle tracking from raw materials to finished products with full data linkage.</p><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&q=80" alt="Traceability"></div>',
+    'responsive': '<div class="tab-content-area active"><h3>🚀 Fast & Responsive</h3><p>Optimized for production environments with snappy navigation and quick data retrieval.</p><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80" alt="Performance"></div>'
+  };
 
-    // 3. Animasi Saat Scroll
-    gsap.utils.toArray('.anim-fade-up').forEach(elem => {
-        if (!elem.closest('.hero')) {
-            gsap.fromTo(elem, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: elem, start: 'top 85%', toggleActions: 'play none none none' } });
+  featureCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const featureName = card.getAttribute('data-feature');
+      if(featureContents[featureName]) {
+        featuresTabArea.innerHTML = featureContents[featureName];
+        featuresTabArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+  });
+
+  const capabilityCards = document.querySelectorAll('[data-capability]');
+  const capabilitiesTabArea = document.getElementById('capabilitiesTabContent');
+  
+  const capabilityContents = {
+    'aoi': '<div class="tab-content-area active"><h3>👁️ AOI Systems</h3><p>State-of-the-art Automated Optical Inspection with AI-powered defect detection and classification.</p><img src="https://images.unsplash.com/photo-1581092162384-8987c1d64718?w=1200&q=80" alt="AOI"></div>',
+    'xray': '<div class="tab-content-area active"><h3>🔬 X-Ray Inspection</h3><p>Inline and offline X-ray systems for comprehensive solder joint analysis and void detection.</p><img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1200&q=80" alt="X-Ray"></div>',
+    'spi': '<div class="tab-content-area active"><h3>📏 SPI Technology</h3><p>3D Solder Paste Inspection with micron-level precision for volume and height measurements.</p><img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=1200&q=80" alt="SPI"></div>'
+  };
+
+  capabilityCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const capabilityName = card.getAttribute('data-capability');
+      if(capabilityContents[capabilityName]) {
+        capabilitiesTabArea.innerHTML = capabilityContents[capabilityName];
+        capabilitiesTabArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+  });
+
+  (function initStarfield(){
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    let w=0,h=0;
+    const stars = [];
+    const config = {
+      layers: [{n:120,s:0.05,r:[.6,1],a:.7},{n:80,s:0.12,r:[.9,1.6],a:.85},{n:40,s:0.25,r:[1.2,2.2],a:1}],
+      mouseRadius: 150,
+      mouseRepel: 0.15
+    };
+    let mouse = { x: w/2, y: h/2 };
+
+    const R=(m,M)=>Math.random()*(M-m)+m;
+    const resize=()=>{
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+      stars.length = 0;
+      config.layers.forEach(l=>{ for(let i=0;i<l.n;i++) stars.push({x:Math.random()*w,y:Math.random()*h,ox:Math.random()*w,oy:Math.random()*h,r:R(l.r[0],l.r[1]),s:l.s,a:R(.6*l.a,l.a)}); });
+    };
+    
+    const tick=()=>{
+      ctx.fillStyle='#050915'; ctx.fillRect(0,0,w,h);
+      for(const s of stars){
+        let dx = mouse.x - s.x, dy = mouse.y - s.y, dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < config.mouseRadius) {
+          let force = (config.mouseRadius - dist) / config.mouseRadius;
+          s.x -= dx / dist * force * config.mouseRepel;
+          s.y -= dy / dist * force * config.mouseRepel;
+        } else {
+          s.x += (s.ox - s.x) * 0.05;
+          s.y += (s.oy - s.y) * 0.05;
         }
-    });
-    gsap.utils.toArray('.anim-card').forEach((card, i) => {
-        gsap.fromTo(card, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', scrollTrigger: { trigger: card, start: 'top 90%', toggleActions: 'play none none none' }, delay: i * 0.1 });
-    });
+        s.ox+=s.s; if(s.ox>w+s.r) s.ox=-s.r;
+        ctx.globalAlpha=s.a; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle='#cfe6ff'; ctx.fill();
+      }
+      requestAnimationFrame(tick);
+    };
+    
+    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    window.addEventListener('touchmove', e => { if(e.touches[0]) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; } }, { passive: true });
+    resize(); window.addEventListener('resize', resize); tick();
+  })();
 
-    // 4. Efek Spotlight pada Kartu
-    const cards = document.querySelectorAll('.card');
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            card.style.setProperty('--cursor-x', `${x}px`);
-            card.style.setProperty('--cursor-y', `${y}px`);
-        });
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (href !== '#') {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
-
-    // 5. Efek Tombol Magnetic
-    const magneticButtons = document.querySelectorAll('.magnetic');
-    magneticButtons.forEach(btn => {
-        btn.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - (rect.left + rect.width / 2);
-            const y = e.clientY - (rect.top + rect.height / 2);
-            gsap.to(this, { x: x * 0.3, y: y * 0.3, duration: 0.8, ease: 'elastic.out(1, 0.3)' });
-        });
-        btn.addEventListener('mouseleave', function() {
-            gsap.to(this, { x: 0, y: 0, duration: 0.5, ease: 'power3.out' });
-        });
-    });
+  });
 });
 </script>
 </body>
